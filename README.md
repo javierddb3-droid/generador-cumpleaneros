@@ -1,2 +1,2 @@
-# generador-cumpleaneros-Mostrar-m-s-l-neas
+# generador-cumpleaneros
 Aplicación Streamlit para generar plantillas de cumpleaños Mostrar más líneas
