@@ -59,7 +59,7 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "difarmer.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 265,
+            "centro_y": 282,
             "ancho_maximo": 510,
             "alto_maximo": 125,
             "tamano_inicial": 48,
@@ -68,15 +68,15 @@ CONFIGURACION_PLANTILLAS = {
             "color": "#123A67",
         },
         "puesto": {
-            "centro_x": 670,
-            "centro_y": 365,
+            "centro_x": 672,
+            "centro_y": 372,
             "ancho_maximo": 470,
             "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#EAAF00",
         },
         "fecha": {
-            "centro_x": 670,
+            "centro_x": 672,
             "centro_y": 423,
             "ancho_maximo": 470,
             "tamano_inicial": 24,
