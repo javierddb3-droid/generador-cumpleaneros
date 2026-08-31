@@ -59,28 +59,28 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "difarmer.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 270,
-            "ancho_maximo": 490,
+            "centro_y": 268,
+            "ancho_maximo": 500,
             "alto_maximo": 115,
             "tamano_inicial": 40,
-            "tamano_minimo": 25,
-            "interlineado": 2,
+            "tamano_minimo": 26,
+            "interlineado": 3,
             "color": "#123A67",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 392,
-            "ancho_maximo": 470,
+            "centro_y": 385,
+            "ancho_maximo": 460,
             "tamano_inicial": 18,
-            "tamano_minimo": 12,
+            "tamano_minimo": 13,
             "color": "#EAAF00",
         },
         "fecha": {
             "centro_x": 670,
-            "centro_y": 430,
-            "ancho_maximo": 470,
+            "centro_y": 423,
+            "ancho_maximo": 460,
             "tamano_inicial": 20,
-            "tamano_minimo": 14,
+            "tamano_minimo": 15,
             "color": "#123A67",
         },
     },
@@ -88,57 +88,57 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "farmasi.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 270,
-            "ancho_maximo": 490,
+            "centro_y": 268,
+            "ancho_maximo": 500,
             "alto_maximo": 115,
             "tamano_inicial": 40,
-            "tamano_minimo": 25,
-            "interlineado": 2,
+            "tamano_minimo": 26,
+            "interlineado": 3,
             "color": "#F58220",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 392,
-            "ancho_maximo": 470,
+            "centro_y": 385,
+            "ancho_maximo": 460,
             "tamano_inicial": 18,
-            "tamano_minimo": 12,
+            "tamano_minimo": 13,
             "color": "#173D6D",
         },
         "fecha": {
             "centro_x": 670,
-            "centro_y": 430,
-            "ancho_maximo": 470,
+            "centro_y": 423,
+            "ancho_maximo": 460,
             "tamano_inicial": 20,
-            "tamano_minimo": 14,
+            "tamano_minimo": 15,
             "color": "#173D6D",
         },
     },
     "PHARMACEUTIX": {
         "archivo": "pharmaceutix.png",
         "nombre": {
-            "centro_x": 670,
-            "centro_y": 262,
-            "ancho_maximo": 490,
-            "alto_maximo": 115,
+            "centro_x": 672,
+            "centro_y": 264,
+            "ancho_maximo": 500,
+            "alto_maximo": 112,
             "tamano_inicial": 40,
-            "tamano_minimo": 25,
-            "interlineado": 2,
+            "tamano_minimo": 26,
+            "interlineado": 3,
             "color": "#63388D",
         },
         "puesto": {
-            "centro_x": 670,
-            "centro_y": 385,
-            "ancho_maximo": 470,
+            "centro_x": 672,
+            "centro_y": 384,
+            "ancho_maximo": 330,
             "tamano_inicial": 18,
-            "tamano_minimo": 12,
+            "tamano_minimo": 13,
             "color": "#173D6D",
         },
         "fecha": {
-            "centro_x": 670,
+            "centro_x": 672,
             "centro_y": 423,
-            "ancho_maximo": 470,
+            "ancho_maximo": 450,
             "tamano_inicial": 20,
-            "tamano_minimo": 14,
+            "tamano_minimo": 15,
             "color": "#63388D",
         },
     },
@@ -146,28 +146,28 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "dabra.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 270,
-            "ancho_maximo": 490,
+            "centro_y": 268,
+            "ancho_maximo": 500,
             "alto_maximo": 115,
             "tamano_inicial": 40,
-            "tamano_minimo": 25,
-            "interlineado": 2,
+            "tamano_minimo": 26,
+            "interlineado": 3,
             "color": "#C9282D",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 392,
-            "ancho_maximo": 470,
+            "centro_y": 385,
+            "ancho_maximo": 460,
             "tamano_inicial": 18,
-            "tamano_minimo": 12,
+            "tamano_minimo": 13,
             "color": "#173D6D",
         },
         "fecha": {
             "centro_x": 670,
-            "centro_y": 430,
-            "ancho_maximo": 470,
+            "centro_y": 423,
+            "ancho_maximo": 460,
             "tamano_inicial": 20,
-            "tamano_minimo": 14,
+            "tamano_minimo": 15,
             "color": "#173D6D",
         },
     },
@@ -175,28 +175,28 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "baranetos.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 270,
-            "ancho_maximo": 490,
+            "centro_y": 268,
+            "ancho_maximo": 500,
             "alto_maximo": 115,
             "tamano_inicial": 40,
-            "tamano_minimo": 25,
-            "interlineado": 2,
+            "tamano_minimo": 26,
+            "interlineado": 3,
             "color": "#63388D",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 392,
-            "ancho_maximo": 470,
+            "centro_y": 385,
+            "ancho_maximo": 460,
             "tamano_inicial": 18,
-            "tamano_minimo": 12,
+            "tamano_minimo": 13,
             "color": "#4A9B44",
         },
         "fecha": {
             "centro_x": 670,
-            "centro_y": 430,
-            "ancho_maximo": 470,
+            "centro_y": 423,
+            "ancho_maximo": 460,
             "tamano_inicial": 20,
-            "tamano_minimo": 14,
+            "tamano_minimo": 15,
             "color": "#4A9B44",
         },
     },
@@ -205,7 +205,7 @@ CONFIGURACION_PLANTILLAS = {
 
 def limpiar_texto(valor):
     """
-    Convierte un valor a texto y elimina espacios innecesarios.
+    Convierte el valor a texto y elimina espacios innecesarios.
     """
 
     if pd.isna(valor):
@@ -216,7 +216,7 @@ def limpiar_texto(valor):
 
 def formato_titulo(valor):
     """
-    Convierte textos escritos en mayúsculas a formato de título.
+    Convierte textos escritos en mayúsculas a formato título.
 
     Ejemplo:
     JAVIER DE DIOS BOCANEGRA
@@ -242,7 +242,7 @@ def formato_titulo(valor):
 
 def obtener_fecha_tarjeta(fecha_nacimiento, anio_actual):
     """
-    Devuelve la fecha que se colocará en la tarjeta.
+    Devuelve la fecha que aparecerá en la tarjeta.
     """
 
     if pd.isna(fecha_nacimiento):
@@ -254,62 +254,131 @@ def obtener_fecha_tarjeta(fecha_nacimiento, anio_actual):
     return f"{dia:02d} de {mes} del {anio_actual}"
 
 
-def obtener_fuente(negrita, tamano):
+def obtener_rutas_fuentes(negrita):
     """
-    Busca una fuente incluida en el proyecto.
+    Devuelve las posibles ubicaciones de fuentes escalables.
 
-    Orden de búsqueda:
-    1. Montserrat del repositorio
-    2. DejaVu Sans del sistema
-    3. Fuente predeterminada de Pillow
+    Primero busca fuentes agregadas al repositorio.
+    Después busca fuentes disponibles en Streamlit Cloud.
     """
 
     if negrita:
-        nombres_fuente = [
+        nombres_repositorio = [
             "Montserrat-Bold.ttf",
             "Montserrat-SemiBold.ttf",
             "Antenna-Bold.ttf",
             "AntennaBold.ttf",
+            "DejaVuSansCondensed-Bold.ttf",
         ]
 
         rutas_sistema = [
-            Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
-            Path("/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf"),
+            Path(
+                "/usr/share/fonts/truetype/dejavu/"
+                "DejaVuSansCondensed-Bold.ttf"
+            ),
+            Path(
+                "/usr/share/fonts/truetype/dejavu/"
+                "DejaVuSans-Bold.ttf"
+            ),
+            Path(
+                "/usr/share/fonts/truetype/liberation2/"
+                "LiberationSans-Bold.ttf"
+            ),
+            Path(
+                "/usr/share/fonts/truetype/freefont/"
+                "FreeSansBold.ttf"
+            ),
         ]
+
     else:
-        nombres_fuente = [
+        nombres_repositorio = [
             "Montserrat-Regular.ttf",
             "Antenna-Regular.ttf",
             "AntennaRegular.ttf",
+            "DejaVuSansCondensed.ttf",
         ]
 
         rutas_sistema = [
-            Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
-            Path("/usr/share/fonts/dejavu/DejaVuSans.ttf"),
+            Path(
+                "/usr/share/fonts/truetype/dejavu/"
+                "DejaVuSansCondensed.ttf"
+            ),
+            Path(
+                "/usr/share/fonts/truetype/dejavu/"
+                "DejaVuSans.ttf"
+            ),
+            Path(
+                "/usr/share/fonts/truetype/liberation2/"
+                "LiberationSans-Regular.ttf"
+            ),
+            Path(
+                "/usr/share/fonts/truetype/freefont/"
+                "FreeSans.ttf"
+            ),
         ]
 
-    for nombre_fuente in nombres_fuente:
-        ruta = RUTA_FUENTES / nombre_fuente
+    rutas = [
+        RUTA_FUENTES / nombre
+        for nombre in nombres_repositorio
+    ]
 
-        if ruta.exists():
+    rutas.extend(rutas_sistema)
+
+    return rutas
+
+
+def obtener_fuente(negrita, tamano):
+    """
+    Carga una fuente TrueType escalable.
+
+    No utiliza ImageFont.load_default porque esa fuente
+    no cambia correctamente de tamaño y provoca textos diminutos.
+    """
+
+    rutas_posibles = obtener_rutas_fuentes(negrita)
+
+    for ruta in rutas_posibles:
+        if ruta.exists() and ruta.is_file():
+            try:
+                return ImageFont.truetype(
+                    str(ruta),
+                    size=int(tamano),
+                )
+            except OSError:
+                continue
+
+    nombres_directos = []
+
+    if negrita:
+        nombres_directos = [
+            "DejaVuSansCondensed-Bold.ttf",
+            "DejaVuSans-Bold.ttf",
+        ]
+    else:
+        nombres_directos = [
+            "DejaVuSansCondensed.ttf",
+            "DejaVuSans.ttf",
+        ]
+
+    for nombre in nombres_directos:
+        try:
             return ImageFont.truetype(
-                str(ruta),
-                size=tamano,
+                nombre,
+                size=int(tamano),
             )
+        except OSError:
+            continue
 
-    for ruta in rutas_sistema:
-        if ruta.exists():
-            return ImageFont.truetype(
-                str(ruta),
-                size=tamano,
-            )
-
-    return ImageFont.load_default()
+    raise FileNotFoundError(
+        "No se encontró una fuente TrueType escalable. "
+        "Agrega Montserrat-Bold.ttf y Montserrat-Regular.ttf "
+        "dentro de assets/fonts."
+    )
 
 
 def medir_texto(draw, texto, fuente):
     """
-    Devuelve el ancho y alto aproximado de un texto.
+    Devuelve el ancho y alto real de un texto.
     """
 
     caja = draw.textbbox(
@@ -331,7 +400,7 @@ def medir_texto_multilinea(
     interlineado,
 ):
     """
-    Devuelve el ancho y alto de un texto de varias líneas.
+    Devuelve el ancho y alto real de un texto multilínea.
     """
 
     caja = draw.multiline_textbbox(
@@ -355,7 +424,7 @@ def dividir_nombre_equilibrado(
     ancho_maximo,
 ):
     """
-    Intenta dividir un nombre largo en dos líneas equilibradas.
+    Divide nombres largos en dos líneas equilibradas.
     """
 
     palabras = nombre.split()
@@ -391,9 +460,7 @@ def dividir_nombre_equilibrado(
             fuente,
         )
 
-        ancho_mayor = max(ancho_1, ancho_2)
-
-        if ancho_mayor <= ancho_maximo:
+        if max(ancho_1, ancho_2) <= ancho_maximo:
             diferencia = abs(ancho_1 - ancho_2)
 
             if (
@@ -403,16 +470,15 @@ def dividir_nombre_equilibrado(
                 mejor_diferencia = diferencia
                 mejor_texto = f"{linea_1}\n{linea_2}"
 
-    if mejor_texto:
+    if mejor_texto is not None:
         return mejor_texto
 
-    punto_medio = len(palabras) // 2
+    punto_medio = max(1, len(palabras) // 2)
 
-    return (
-        " ".join(palabras[:punto_medio])
-        + "\n"
-        + " ".join(palabras[punto_medio:])
-    )
+    linea_1 = " ".join(palabras[:punto_medio])
+    linea_2 = " ".join(palabras[punto_medio:])
+
+    return f"{linea_1}\n{linea_2}"
 
 
 def ajustar_nombre(
@@ -421,10 +487,7 @@ def ajustar_nombre(
     configuracion,
 ):
     """
-    Ajusta automáticamente el nombre al área disponible.
-
-    La función prueba diferentes tamaños de fuente y permite
-    utilizar hasta dos líneas.
+    Ajusta el nombre al ancho y alto disponibles.
     """
 
     tamano_inicial = configuracion["tamano_inicial"]
@@ -487,7 +550,8 @@ def ajustar_texto_una_linea(
     negrita,
 ):
     """
-    Reduce el tamaño de un texto hasta que cabe en una línea.
+    Reduce gradualmente el texto hasta que cabe
+    en el ancho indicado.
     """
 
     for tamano in range(
@@ -524,7 +588,8 @@ def dibujar_texto_centrado(
     color,
 ):
     """
-    Dibuja un texto de una línea tomando como referencia su centro.
+    Dibuja un texto de una línea centrado horizontal
+    y verticalmente.
     """
 
     caja = draw.textbbox(
@@ -557,7 +622,7 @@ def dibujar_nombre_centrado(
     interlineado,
 ):
     """
-    Dibuja el nombre centrado, permitiendo una o dos líneas.
+    Dibuja el nombre centrado y permite dos líneas.
     """
 
     caja = draw.multiline_textbbox(
@@ -586,7 +651,7 @@ def dibujar_nombre_centrado(
 
 def validar_plantilla(nombre_plantilla):
     """
-    Comprueba que exista la configuración y el archivo PNG.
+    Comprueba que exista la configuración y el PNG.
     """
 
     if nombre_plantilla not in CONFIGURACION_PLANTILLAS:
@@ -620,10 +685,7 @@ def generar_tarjeta(
     anio_actual,
 ):
     """
-    Genera una tarjeta de cumpleaños en formato PNG.
-
-    Devuelve un objeto BytesIO listo para mostrar en Streamlit
-    o agregar a un archivo ZIP.
+    Genera una tarjeta en PNG y la devuelve en memoria.
     """
 
     configuracion, ruta_plantilla = validar_plantilla(
@@ -633,6 +695,13 @@ def generar_tarjeta(
     imagen = Image.open(
         ruta_plantilla
     ).convert("RGBA")
+
+    if imagen.size != (960, 720):
+        raise ValueError(
+            f"La plantilla {nombre_plantilla} mide "
+            f"{imagen.width} x {imagen.height}. "
+            "El tamaño esperado es 960 x 720."
+        )
 
     draw = ImageDraw.Draw(imagen)
 
@@ -717,7 +786,7 @@ def generar_tarjeta(
 
 def primer_nombre(nombre_completo):
     """
-    Obtiene solamente el primer nombre del colaborador.
+    Obtiene únicamente el primer nombre.
     """
 
     nombre_limpio = formato_titulo(nombre_completo)
@@ -730,8 +799,7 @@ def primer_nombre(nombre_completo):
 
 def limpiar_nombre_archivo(texto):
     """
-    Elimina caracteres no permitidos o problemáticos
-    en los nombres de archivo.
+    Limpia caracteres problemáticos para nombres de archivo.
     """
 
     texto = str(texto).strip()
@@ -767,10 +835,7 @@ def crear_nombre_archivo(
     fecha_nacimiento,
 ):
     """
-    Genera el nombre base solicitado para cada PNG.
-
-    Ejemplo:
-    Javier_16_oct.png
+    Crea nombres como Javier_16_oct.png.
     """
 
     nombre = primer_nombre(nombre_completo)
