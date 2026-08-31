@@ -59,144 +59,148 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "difarmer.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 268,
-            "ancho_maximo": 500,
-            "alto_maximo": 115,
-            "tamano_inicial": 40,
-            "tamano_minimo": 26,
+            "centro_y": 265,
+            "ancho_maximo": 510,
+            "alto_maximo": 125,
+            "tamano_inicial": 48,
+            "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#123A67",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 385,
-            "ancho_maximo": 460,
-            "tamano_inicial": 18,
-            "tamano_minimo": 13,
+            "centro_y": 365,
+            "ancho_maximo": 470,
+            "tamano_inicial": 22,
+            "tamano_minimo": 15,
             "color": "#EAAF00",
         },
         "fecha": {
             "centro_x": 670,
             "centro_y": 423,
-            "ancho_maximo": 460,
-            "tamano_inicial": 20,
-            "tamano_minimo": 15,
+            "ancho_maximo": 470,
+            "tamano_inicial": 24,
+            "tamano_minimo": 17,
             "color": "#123A67",
         },
     },
+
     "FARMASI": {
         "archivo": "farmasi.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 268,
-            "ancho_maximo": 500,
-            "alto_maximo": 115,
-            "tamano_inicial": 40,
-            "tamano_minimo": 26,
+            "centro_y": 265,
+            "ancho_maximo": 510,
+            "alto_maximo": 125,
+            "tamano_inicial": 48,
+            "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#F58220",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 385,
-            "ancho_maximo": 460,
-            "tamano_inicial": 18,
-            "tamano_minimo": 13,
+            "centro_y": 365,
+            "ancho_maximo": 470,
+            "tamano_inicial": 22,
+            "tamano_minimo": 15,
             "color": "#173D6D",
         },
         "fecha": {
             "centro_x": 670,
             "centro_y": 423,
-            "ancho_maximo": 460,
-            "tamano_inicial": 20,
-            "tamano_minimo": 15,
+            "ancho_maximo": 470,
+            "tamano_inicial": 24,
+            "tamano_minimo": 17,
             "color": "#173D6D",
         },
     },
+
     "PHARMACEUTIX": {
         "archivo": "pharmaceutix.png",
         "nombre": {
             "centro_x": 672,
             "centro_y": 264,
-            "ancho_maximo": 500,
-            "alto_maximo": 112,
-            "tamano_inicial": 40,
-            "tamano_minimo": 26,
+            "ancho_maximo": 520,
+            "alto_maximo": 125,
+            "tamano_inicial": 48,
+            "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#63388D",
         },
         "puesto": {
             "centro_x": 672,
-            "centro_y": 384,
-            "ancho_maximo": 330,
-            "tamano_inicial": 18,
-            "tamano_minimo": 13,
+            "centro_y": 361,
+            "ancho_maximo": 430,
+            "tamano_inicial": 22,
+            "tamano_minimo": 15,
             "color": "#173D6D",
         },
         "fecha": {
             "centro_x": 672,
-            "centro_y": 423,
-            "ancho_maximo": 450,
-            "tamano_inicial": 20,
-            "tamano_minimo": 15,
+            "centro_y": 422,
+            "ancho_maximo": 470,
+            "tamano_inicial": 24,
+            "tamano_minimo": 17,
             "color": "#63388D",
         },
     },
+
     "DABRA": {
         "archivo": "dabra.png",
         "nombre": {
-            "centro_x": 670,
-            "centro_y": 268,
-            "ancho_maximo": 500,
-            "alto_maximo": 115,
-            "tamano_inicial": 40,
-            "tamano_minimo": 26,
+            "centro_x": 665,
+            "centro_y": 260,
+            "ancho_maximo": 510,
+            "alto_maximo": 125,
+            "tamano_inicial": 48,
+            "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#C9282D",
         },
         "puesto": {
-            "centro_x": 670,
-            "centro_y": 385,
-            "ancho_maximo": 460,
-            "tamano_inicial": 18,
-            "tamano_minimo": 13,
-            "color": "#173D6D",
-        },
-        "fecha": {
-            "centro_x": 670,
-            "centro_y": 423,
-            "ancho_maximo": 460,
-            "tamano_inicial": 20,
+            "centro_x": 665,
+            "centro_y": 363,
+            "ancho_maximo": 440,
+            "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#173D6D",
         },
+        "fecha": {
+            "centro_x": 665,
+            "centro_y": 422,
+            "ancho_maximo": 470,
+            "tamano_inicial": 24,
+            "tamano_minimo": 17,
+            "color": "#173D6D",
+        },
     },
+
     "BARANETOS": {
         "archivo": "baranetos.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 268,
-            "ancho_maximo": 500,
-            "alto_maximo": 115,
-            "tamano_inicial": 40,
-            "tamano_minimo": 26,
+            "centro_y": 265,
+            "ancho_maximo": 510,
+            "alto_maximo": 125,
+            "tamano_inicial": 48,
+            "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#63388D",
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 385,
-            "ancho_maximo": 460,
-            "tamano_inicial": 18,
-            "tamano_minimo": 13,
+            "centro_y": 365,
+            "ancho_maximo": 470,
+            "tamano_inicial": 22,
+            "tamano_minimo": 15,
             "color": "#4A9B44",
         },
         "fecha": {
             "centro_x": 670,
             "centro_y": 423,
-            "ancho_maximo": 460,
-            "tamano_inicial": 20,
-            "tamano_minimo": 15,
+            "ancho_maximo": 470,
+            "tamano_inicial": 24,
+            "tamano_minimo": 17,
             "color": "#4A9B44",
         },
     },
@@ -242,7 +246,7 @@ def formato_titulo(valor):
 
 def obtener_fecha_tarjeta(fecha_nacimiento, anio_actual):
     """
-    Devuelve la fecha que aparecerá en la tarjeta.
+    Genera la fecha que aparecerá dentro de la tarjeta.
     """
 
     if pd.isna(fecha_nacimiento):
@@ -254,90 +258,28 @@ def obtener_fecha_tarjeta(fecha_nacimiento, anio_actual):
     return f"{dia:02d} de {mes} del {anio_actual}"
 
 
-def obtener_rutas_fuentes(negrita):
+def obtener_fuente(negrita, tamano):
     """
-    Devuelve las posibles ubicaciones de fuentes escalables.
-
-    Primero busca fuentes agregadas al repositorio.
-    Después busca fuentes disponibles en Streamlit Cloud.
+    Obtiene Montserrat desde la carpeta assets/fonts.
     """
 
     if negrita:
-        nombres_repositorio = [
+        nombres = [
             "Montserrat-Bold.ttf",
             "Montserrat-SemiBold.ttf",
             "Antenna-Bold.ttf",
             "AntennaBold.ttf",
-            "DejaVuSansCondensed-Bold.ttf",
         ]
-
-        rutas_sistema = [
-            Path(
-                "/usr/share/fonts/truetype/dejavu/"
-                "DejaVuSansCondensed-Bold.ttf"
-            ),
-            Path(
-                "/usr/share/fonts/truetype/dejavu/"
-                "DejaVuSans-Bold.ttf"
-            ),
-            Path(
-                "/usr/share/fonts/truetype/liberation2/"
-                "LiberationSans-Bold.ttf"
-            ),
-            Path(
-                "/usr/share/fonts/truetype/freefont/"
-                "FreeSansBold.ttf"
-            ),
-        ]
-
     else:
-        nombres_repositorio = [
+        nombres = [
             "Montserrat-Regular.ttf",
             "Antenna-Regular.ttf",
             "AntennaRegular.ttf",
-            "DejaVuSansCondensed.ttf",
         ]
 
-        rutas_sistema = [
-            Path(
-                "/usr/share/fonts/truetype/dejavu/"
-                "DejaVuSansCondensed.ttf"
-            ),
-            Path(
-                "/usr/share/fonts/truetype/dejavu/"
-                "DejaVuSans.ttf"
-            ),
-            Path(
-                "/usr/share/fonts/truetype/liberation2/"
-                "LiberationSans-Regular.ttf"
-            ),
-            Path(
-                "/usr/share/fonts/truetype/freefont/"
-                "FreeSans.ttf"
-            ),
-        ]
+    for nombre in nombres:
+        ruta = RUTA_FUENTES / nombre
 
-    rutas = [
-        RUTA_FUENTES / nombre
-        for nombre in nombres_repositorio
-    ]
-
-    rutas.extend(rutas_sistema)
-
-    return rutas
-
-
-def obtener_fuente(negrita, tamano):
-    """
-    Carga una fuente TrueType escalable.
-
-    No utiliza ImageFont.load_default porque esa fuente
-    no cambia correctamente de tamaño y provoca textos diminutos.
-    """
-
-    rutas_posibles = obtener_rutas_fuentes(negrita)
-
-    for ruta in rutas_posibles:
         if ruta.exists() and ruta.is_file():
             try:
                 return ImageFont.truetype(
@@ -347,38 +289,16 @@ def obtener_fuente(negrita, tamano):
             except OSError:
                 continue
 
-    nombres_directos = []
-
-    if negrita:
-        nombres_directos = [
-            "DejaVuSansCondensed-Bold.ttf",
-            "DejaVuSans-Bold.ttf",
-        ]
-    else:
-        nombres_directos = [
-            "DejaVuSansCondensed.ttf",
-            "DejaVuSans.ttf",
-        ]
-
-    for nombre in nombres_directos:
-        try:
-            return ImageFont.truetype(
-                nombre,
-                size=int(tamano),
-            )
-        except OSError:
-            continue
-
     raise FileNotFoundError(
-        "No se encontró una fuente TrueType escalable. "
-        "Agrega Montserrat-Bold.ttf y Montserrat-Regular.ttf "
-        "dentro de assets/fonts."
+        "No se encontró la fuente necesaria. "
+        "Verifica que Montserrat-Bold.ttf y "
+        "Montserrat-Regular.ttf estén dentro de assets/fonts."
     )
 
 
 def medir_texto(draw, texto, fuente):
     """
-    Devuelve el ancho y alto real de un texto.
+    Mide el ancho y alto de un texto de una línea.
     """
 
     caja = draw.textbbox(
@@ -400,7 +320,7 @@ def medir_texto_multilinea(
     interlineado,
 ):
     """
-    Devuelve el ancho y alto real de un texto multilínea.
+    Mide el ancho y alto de un texto de varias líneas.
     """
 
     caja = draw.multiline_textbbox(
@@ -424,7 +344,7 @@ def dividir_nombre_equilibrado(
     ancho_maximo,
 ):
     """
-    Divide nombres largos en dos líneas equilibradas.
+    Divide un nombre largo en dos líneas equilibradas.
     """
 
     palabras = nombre.split()
@@ -460,7 +380,9 @@ def dividir_nombre_equilibrado(
             fuente,
         )
 
-        if max(ancho_1, ancho_2) <= ancho_maximo:
+        ancho_mayor = max(ancho_1, ancho_2)
+
+        if ancho_mayor <= ancho_maximo:
             diferencia = abs(ancho_1 - ancho_2)
 
             if (
@@ -470,13 +392,21 @@ def dividir_nombre_equilibrado(
                 mejor_diferencia = diferencia
                 mejor_texto = f"{linea_1}\n{linea_2}"
 
-    if mejor_texto is not None:
+    if mejor_texto:
         return mejor_texto
 
-    punto_medio = max(1, len(palabras) // 2)
+    punto_medio = max(
+        1,
+        len(palabras) // 2,
+    )
 
-    linea_1 = " ".join(palabras[:punto_medio])
-    linea_2 = " ".join(palabras[punto_medio:])
+    linea_1 = " ".join(
+        palabras[:punto_medio]
+    )
+
+    linea_2 = " ".join(
+        palabras[punto_medio:]
+    )
 
     return f"{linea_1}\n{linea_2}"
 
@@ -487,14 +417,28 @@ def ajustar_nombre(
     configuracion,
 ):
     """
-    Ajusta el nombre al ancho y alto disponibles.
+    Ajusta el nombre al espacio disponible.
     """
 
-    tamano_inicial = configuracion["tamano_inicial"]
-    tamano_minimo = configuracion["tamano_minimo"]
-    ancho_maximo = configuracion["ancho_maximo"]
-    alto_maximo = configuracion["alto_maximo"]
-    interlineado = configuracion["interlineado"]
+    tamano_inicial = configuracion[
+        "tamano_inicial"
+    ]
+
+    tamano_minimo = configuracion[
+        "tamano_minimo"
+    ]
+
+    ancho_maximo = configuracion[
+        "ancho_maximo"
+    ]
+
+    alto_maximo = configuracion[
+        "alto_maximo"
+    ]
+
+    interlineado = configuracion[
+        "interlineado"
+    ]
 
     for tamano in range(
         tamano_inicial,
@@ -550,8 +494,7 @@ def ajustar_texto_una_linea(
     negrita,
 ):
     """
-    Reduce gradualmente el texto hasta que cabe
-    en el ancho indicado.
+    Reduce un texto gradualmente hasta que cabe.
     """
 
     for tamano in range(
@@ -588,8 +531,7 @@ def dibujar_texto_centrado(
     color,
 ):
     """
-    Dibuja un texto de una línea centrado horizontal
-    y verticalmente.
+    Dibuja un texto centrado horizontal y verticalmente.
     """
 
     caja = draw.textbbox(
@@ -622,7 +564,7 @@ def dibujar_nombre_centrado(
     interlineado,
 ):
     """
-    Dibuja el nombre centrado y permite dos líneas.
+    Dibuja un nombre centrado en una o dos líneas.
     """
 
     caja = draw.multiline_textbbox(
@@ -651,7 +593,7 @@ def dibujar_nombre_centrado(
 
 def validar_plantilla(nombre_plantilla):
     """
-    Comprueba que exista la configuración y el PNG.
+    Comprueba que la plantilla exista.
     """
 
     if nombre_plantilla not in CONFIGURACION_PLANTILLAS:
@@ -685,7 +627,7 @@ def generar_tarjeta(
     anio_actual,
 ):
     """
-    Genera una tarjeta en PNG y la devuelve en memoria.
+    Genera la tarjeta de cumpleaños en PNG.
     """
 
     configuracion, ruta_plantilla = validar_plantilla(
@@ -705,15 +647,22 @@ def generar_tarjeta(
 
     draw = ImageDraw.Draw(imagen)
 
-    nombre_formateado = formato_titulo(nombre)
-    puesto_formateado = formato_titulo(puesto)
+    nombre_formateado = formato_titulo(
+        nombre
+    )
+
+    puesto_formateado = formato_titulo(
+        puesto
+    )
 
     fecha_formateada = obtener_fecha_tarjeta(
         fecha_nacimiento=fecha_nacimiento,
         anio_actual=anio_actual,
     )
 
-    configuracion_nombre = configuracion["nombre"]
+    configuracion_nombre = configuracion[
+        "nombre"
+    ]
 
     nombre_ajustado, fuente_nombre = ajustar_nombre(
         draw=draw,
@@ -724,51 +673,87 @@ def generar_tarjeta(
     dibujar_nombre_centrado(
         draw=draw,
         texto=nombre_ajustado,
-        centro_x=configuracion_nombre["centro_x"],
-        centro_y=configuracion_nombre["centro_y"],
+        centro_x=configuracion_nombre[
+            "centro_x"
+        ],
+        centro_y=configuracion_nombre[
+            "centro_y"
+        ],
         fuente=fuente_nombre,
-        color=configuracion_nombre["color"],
-        interlineado=configuracion_nombre["interlineado"],
+        color=configuracion_nombre[
+            "color"
+        ],
+        interlineado=configuracion_nombre[
+            "interlineado"
+        ],
     )
 
-    configuracion_puesto = configuracion["puesto"]
+    configuracion_puesto = configuracion[
+        "puesto"
+    ]
 
     fuente_puesto = ajustar_texto_una_linea(
         draw=draw,
         texto=puesto_formateado,
-        ancho_maximo=configuracion_puesto["ancho_maximo"],
-        tamano_inicial=configuracion_puesto["tamano_inicial"],
-        tamano_minimo=configuracion_puesto["tamano_minimo"],
+        ancho_maximo=configuracion_puesto[
+            "ancho_maximo"
+        ],
+        tamano_inicial=configuracion_puesto[
+            "tamano_inicial"
+        ],
+        tamano_minimo=configuracion_puesto[
+            "tamano_minimo"
+        ],
         negrita=True,
     )
 
     dibujar_texto_centrado(
         draw=draw,
         texto=puesto_formateado,
-        centro_x=configuracion_puesto["centro_x"],
-        centro_y=configuracion_puesto["centro_y"],
+        centro_x=configuracion_puesto[
+            "centro_x"
+        ],
+        centro_y=configuracion_puesto[
+            "centro_y"
+        ],
         fuente=fuente_puesto,
-        color=configuracion_puesto["color"],
+        color=configuracion_puesto[
+            "color"
+        ],
     )
 
-    configuracion_fecha = configuracion["fecha"]
+    configuracion_fecha = configuracion[
+        "fecha"
+    ]
 
     fuente_fecha = ajustar_texto_una_linea(
         draw=draw,
         texto=fecha_formateada,
-        ancho_maximo=configuracion_fecha["ancho_maximo"],
-        tamano_inicial=configuracion_fecha["tamano_inicial"],
-        tamano_minimo=configuracion_fecha["tamano_minimo"],
+        ancho_maximo=configuracion_fecha[
+            "ancho_maximo"
+        ],
+        tamano_inicial=configuracion_fecha[
+            "tamano_inicial"
+        ],
+        tamano_minimo=configuracion_fecha[
+            "tamano_minimo"
+        ],
         negrita=False,
     )
 
     dibujar_texto_centrado(
         draw=draw,
         texto=fecha_formateada,
-        centro_x=configuracion_fecha["centro_x"],
-        centro_y=configuracion_fecha["centro_y"],
+        centro_x=configuracion_fecha[
+            "centro_x"
+        ],
+        centro_y=configuracion_fecha[
+            "centro_y"
+        ],
         fuente=fuente_fecha,
-        color=configuracion_fecha["color"],
+        color=configuracion_fecha[
+            "color"
+        ],
     )
 
     salida = BytesIO()
@@ -789,7 +774,9 @@ def primer_nombre(nombre_completo):
     Obtiene únicamente el primer nombre.
     """
 
-    nombre_limpio = formato_titulo(nombre_completo)
+    nombre_limpio = formato_titulo(
+        nombre_completo
+    )
 
     if not nombre_limpio:
         return "Sin_nombre"
@@ -799,7 +786,7 @@ def primer_nombre(nombre_completo):
 
 def limpiar_nombre_archivo(texto):
     """
-    Limpia caracteres problemáticos para nombres de archivo.
+    Limpia caracteres problemáticos del nombre de archivo.
     """
 
     texto = str(texto).strip()
@@ -835,13 +822,23 @@ def crear_nombre_archivo(
     fecha_nacimiento,
 ):
     """
-    Crea nombres como Javier_16_oct.png.
+    Crea el nombre final del PNG.
+
+    Ejemplo:
+    Javier_16_oct.png
     """
 
-    nombre = primer_nombre(nombre_completo)
-    nombre = limpiar_nombre_archivo(nombre)
+    nombre = primer_nombre(
+        nombre_completo
+    )
 
-    dia = int(fecha_nacimiento.day)
+    nombre = limpiar_nombre_archivo(
+        nombre
+    )
+
+    dia = int(
+        fecha_nacimiento.day
+    )
 
     mes = MESES_ABREVIADOS[
         int(fecha_nacimiento.month)
