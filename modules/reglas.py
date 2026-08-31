@@ -9,6 +9,7 @@ SUCURSALES_DIFARMER = {
     "MATRIZ",
     "LEON",
     "MEXICALI",
+    "MEXICALI_x000D_",
     "PUEBLA",
     "QUERETARO",
     "TORREON",
