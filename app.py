@@ -4,6 +4,11 @@ import calendar
 import pandas as pd
 import streamlit as st
 
+from modules.generador import (
+    crear_nombre_archivo,
+    formato_titulo,
+    generar_tarjeta,
+)
 from modules.reglas import (
     determinar_plantilla,
     obtener_motivo_sin_asignar,
@@ -49,16 +54,6 @@ MESES_MINUSCULAS = {
 }
 
 
-PARTICULAS_MINUSCULAS = {
-    "De",
-    "Del",
-    "La",
-    "Las",
-    "Los",
-    "Y",
-}
-
-
 def limpiar_nombre_columna(nombre_columna):
     """
     Elimina espacios al inicio y al final de los encabezados.
@@ -95,7 +90,11 @@ def convertir_fecha_excel(valor):
                 origin="1899-12-30",
                 errors="coerce",
             )
-        except (ValueError, TypeError, OverflowError):
+        except (
+            ValueError,
+            TypeError,
+            OverflowError,
+        ):
             return pd.NaT
 
     texto = str(valor).strip()
@@ -114,7 +113,10 @@ def convertir_fecha_excel(valor):
                 errors="coerce",
             )
 
-    except (ValueError, TypeError):
+    except (
+        ValueError,
+        TypeError,
+    ):
         pass
 
     return pd.to_datetime(
@@ -155,7 +157,8 @@ def leer_archivo_excel(archivo):
 
 def obtener_columnas_faltantes(dataframe):
     """
-    Devuelve las columnas requeridas que no existen en la base.
+    Devuelve las columnas requeridas que no existen
+    dentro de la base.
     """
 
     return [
@@ -167,7 +170,7 @@ def obtener_columnas_faltantes(dataframe):
 
 def normalizar_texto(valor):
     """
-    Limpia espacios y convierte el texto a mayúsculas
+    Limpia espacios y convierte un texto a mayúsculas
     para realizar comparaciones.
     """
 
@@ -179,53 +182,19 @@ def normalizar_texto(valor):
     )
 
 
-def formato_titulo(valor):
-    """
-    Convierte un valor escrito en mayúsculas a formato título.
-
-    También mantiene en minúsculas partículas frecuentes
-    dentro de nombres y puestos.
-
-    Ejemplo:
-    JAVIER DE DIOS BOCANEGRA
-    Javier de Dios Bocanegra
-    """
-
-    if pd.isna(valor):
-        return ""
-
-    texto = " ".join(
-        str(valor).strip().split()
-    )
-
-    palabras = texto.lower().title().split()
-
-    resultado = []
-
-    for indice, palabra in enumerate(palabras):
-        if (
-            indice > 0
-            and palabra in PARTICULAS_MINUSCULAS
-        ):
-            resultado.append(palabra.lower())
-        else:
-            resultado.append(palabra)
-
-    return " ".join(resultado)
-
-
 def formato_fecha_tarjeta(fecha_nacimiento):
     """
-    Genera la fecha que aparecerá en la tarjeta,
+    Genera la fecha visible dentro de la tarjeta,
     utilizando el año actual.
     """
 
     if pd.isna(fecha_nacimiento):
         return ""
 
-    dia = fecha_nacimiento.day
+    dia = int(fecha_nacimiento.day)
+
     mes = MESES_MINUSCULAS[
-        fecha_nacimiento.month
+        int(fecha_nacimiento.month)
     ]
 
     anio_actual = datetime.now().year
@@ -288,7 +257,7 @@ def filtrar_cumpleaneros(
 def asignar_plantillas(dataframe):
     """
     Agrega la plantilla asignada y el resultado
-    de la validación a cada colaborador.
+    de la validación.
     """
 
     resultado = dataframe.copy()
@@ -312,7 +281,8 @@ def asignar_plantillas(dataframe):
 
 def crear_vista_resultados(dataframe):
     """
-    Prepara la tabla que se mostrará en Streamlit.
+    Prepara la tabla de colaboradores para mostrarla
+    dentro de Streamlit.
     """
 
     columnas = [
@@ -353,12 +323,43 @@ def crear_vista_resultados(dataframe):
     return vista
 
 
-st.title("🎂 Generador de plantillas de cumpleaños")
+def crear_etiqueta_colaborador(indice, fila):
+    """
+    Crea el texto que aparecerá en el selector
+    de vista previa.
+    """
+
+    nombre = formato_titulo(
+        fila["Nombre"]
+    )
+
+    sucursal = str(
+        fila["Sucursal"]
+    ).strip()
+
+    plantilla = fila[
+        "Plantilla asignada"
+    ]
+
+    fecha = fila[
+        "FechaNacimiento"
+    ].strftime("%d/%m")
+
+    return (
+        f"{indice} | {nombre} | "
+        f"{fecha} | {sucursal} | {plantilla}"
+    )
+
+
+st.title(
+    "🎂 Generador de plantillas de cumpleaños"
+)
 
 st.write(
     """
-    Carga la base de datos, selecciona el periodo y revisa
-    los colaboradores antes de generar las tarjetas.
+    Carga la base de datos, selecciona el periodo,
+    revisa la asignación y genera una vista previa de
+    las tarjetas de cumpleaños.
     """
 )
 
@@ -416,329 +417,553 @@ else:
                 list(df.columns)
             )
 
-        else:
-            st.success(
-                "El archivo Excel se cargó correctamente."
-            )
+            st.stop()
 
-            total_registros = len(df)
+        st.success(
+            "El archivo Excel se cargó correctamente."
+        )
 
-            fechas_validas = int(
-                df["FechaNacimiento"]
-                .notna()
-                .sum()
-            )
+        total_registros = len(df)
 
-            fechas_invalidas = int(
-                df["FechaNacimiento"]
-                .isna()
-                .sum()
-            )
+        fechas_validas = int(
+            df["FechaNacimiento"]
+            .notna()
+            .sum()
+        )
 
-            columna_1, columna_2, columna_3 = (
-                st.columns(3)
-            )
+        fechas_invalidas = int(
+            df["FechaNacimiento"]
+            .isna()
+            .sum()
+        )
 
-            columna_1.metric(
-                "Total de registros",
-                total_registros,
-            )
+        columna_1, columna_2, columna_3 = (
+            st.columns(3)
+        )
 
-            columna_2.metric(
-                "Fechas válidas",
-                fechas_validas,
-            )
+        columna_1.metric(
+            "Total de registros",
+            total_registros,
+        )
 
-            columna_3.metric(
-                "Fechas inválidas o vacías",
-                fechas_invalidas,
-            )
+        columna_2.metric(
+            "Fechas válidas",
+            fechas_validas,
+        )
 
-            if fechas_invalidas > 0:
-                with st.expander(
-                    "Ver registros con fecha inválida"
-                ):
-                    registros_invalidos = df[
-                        df["FechaNacimiento"].isna()
-                    ].copy()
+        columna_3.metric(
+            "Fechas inválidas o vacías",
+            fechas_invalidas,
+        )
 
-                    columnas_errores = [
-                        "Empresa",
-                        "Sucursal",
-                        "Nombre",
-                        "FechaNacimientoOriginal",
-                    ]
+        if fechas_invalidas > 0:
+            with st.expander(
+                "Ver registros con fecha inválida"
+            ):
+                registros_invalidos = df[
+                    df["FechaNacimiento"].isna()
+                ].copy()
 
-                    st.dataframe(
-                        registros_invalidos[
-                            columnas_errores
-                        ],
-                        use_container_width=True,
-                        hide_index=True,
-                    )
-
-            st.divider()
-
-            st.subheader(
-                "1. Selecciona los filtros"
-            )
-
-            empresas_disponibles = (
-                df["Empresa"]
-                .dropna()
-                .apply(normalizar_texto)
-                .loc[
-                    lambda serie:
-                    serie != ""
+                columnas_errores = [
+                    "Empresa",
+                    "Sucursal",
+                    "Nombre",
+                    "FechaNacimientoOriginal",
                 ]
-                .sort_values()
-                .unique()
-                .tolist()
-            )
 
-            opciones_empresa = (
-                ["Todas"]
-                + empresas_disponibles
-            )
-
-            columna_empresa, columna_modalidad = (
-                st.columns(2)
-            )
-
-            with columna_empresa:
-                empresa_seleccionada = st.selectbox(
-                    "Empresa matriz",
-                    options=opciones_empresa,
-                    index=0,
-                )
-
-            with columna_modalidad:
-                modalidad = st.radio(
-                    "Periodo de cumpleaños",
-                    options=[
-                        "Mes completo",
-                        "Día específico",
+                st.dataframe(
+                    registros_invalidos[
+                        columnas_errores
                     ],
-                    horizontal=True,
+                    use_container_width=True,
+                    hide_index=True,
                 )
 
-            columna_mes, columna_dia = st.columns(2)
+        st.divider()
 
-            mes_actual = datetime.now().month
+        st.subheader(
+            "1. Selecciona los filtros"
+        )
 
-            with columna_mes:
-                nombre_mes = st.selectbox(
-                    "Mes",
+        empresas_disponibles = (
+            df["Empresa"]
+            .dropna()
+            .apply(normalizar_texto)
+            .loc[
+                lambda serie:
+                serie != ""
+            ]
+            .sort_values()
+            .unique()
+            .tolist()
+        )
+
+        opciones_empresa = (
+            ["Todas"]
+            + empresas_disponibles
+        )
+
+        columna_empresa, columna_modalidad = (
+            st.columns(2)
+        )
+
+        with columna_empresa:
+            empresa_seleccionada = st.selectbox(
+                "Empresa matriz",
+                options=opciones_empresa,
+                index=0,
+            )
+
+        with columna_modalidad:
+            modalidad = st.radio(
+                "Periodo de cumpleaños",
+                options=[
+                    "Mes completo",
+                    "Día específico",
+                ],
+                horizontal=True,
+            )
+
+        columna_mes, columna_dia = (
+            st.columns(2)
+        )
+
+        mes_actual = datetime.now().month
+
+        with columna_mes:
+            nombre_mes = st.selectbox(
+                "Mes",
+                options=list(
+                    MESES.values()
+                ),
+                index=mes_actual - 1,
+            )
+
+        numero_mes = next(
+            numero
+            for numero, nombre
+            in MESES.items()
+            if nombre == nombre_mes
+        )
+
+        dia_seleccionado = None
+
+        with columna_dia:
+            if modalidad == "Día específico":
+                anio_actual = (
+                    datetime.now().year
+                )
+
+                ultimo_dia_mes = (
+                    calendar.monthrange(
+                        anio_actual,
+                        numero_mes,
+                    )[1]
+                )
+
+                dia_seleccionado = st.selectbox(
+                    "Día",
                     options=list(
-                        MESES.values()
+                        range(
+                            1,
+                            ultimo_dia_mes + 1,
+                        )
                     ),
-                    index=mes_actual - 1,
                 )
 
-            numero_mes = next(
-                numero
-                for numero, nombre
-                in MESES.items()
-                if nombre == nombre_mes
+            else:
+                st.info(
+                    "Se incluirán todos los "
+                    f"cumpleaños de "
+                    f"{nombre_mes.lower()}."
+                )
+
+        cumpleaneros = filtrar_cumpleaneros(
+            dataframe=df,
+            empresa_seleccionada=(
+                empresa_seleccionada
+            ),
+            numero_mes=numero_mes,
+            modalidad=modalidad,
+            dia_seleccionado=(
+                dia_seleccionado
+            ),
+        )
+
+        cumpleaneros = asignar_plantillas(
+            cumpleaneros
+        )
+
+        st.divider()
+
+        st.subheader(
+            "2. Revisa los colaboradores encontrados"
+        )
+
+        if modalidad == "Mes completo":
+            descripcion_filtro = (
+                f"Mes completo: {nombre_mes}"
+            )
+        else:
+            descripcion_filtro = (
+                f"{dia_seleccionado:02d} de "
+                f"{nombre_mes.lower()}"
             )
 
-            dia_seleccionado = None
+        st.write(
+            f"**Empresa:** "
+            f"{empresa_seleccionada}  \n"
+            f"**Periodo:** "
+            f"{descripcion_filtro}"
+        )
 
-            with columna_dia:
-                if modalidad == "Día específico":
-                    anio_actual = (
-                        datetime.now().year
-                    )
-
-                    ultimo_dia_mes = (
-                        calendar.monthrange(
-                            anio_actual,
-                            numero_mes,
-                        )[1]
-                    )
-
-                    dia_seleccionado = st.selectbox(
-                        "Día",
-                        options=list(
-                            range(
-                                1,
-                                ultimo_dia_mes + 1,
-                            )
-                        ),
-                    )
-
-                else:
-                    st.info(
-                        "Se incluirán todos los "
-                        f"cumpleaños de "
-                        f"{nombre_mes.lower()}."
-                    )
-
-            cumpleaneros = filtrar_cumpleaneros(
-                dataframe=df,
-                empresa_seleccionada=(
-                    empresa_seleccionada
-                ),
-                numero_mes=numero_mes,
-                modalidad=modalidad,
-                dia_seleccionado=(
-                    dia_seleccionado
-                ),
+        if cumpleaneros.empty:
+            st.warning(
+                "No se encontraron colaboradores "
+                "que coincidan con los filtros "
+                "seleccionados."
             )
 
-            cumpleaneros = asignar_plantillas(
+            st.stop()
+
+        st.success(
+            f"Se encontraron "
+            f"{len(cumpleaneros)} "
+            f"colaboradores."
+        )
+
+        vista_resultados = (
+            crear_vista_resultados(
                 cumpleaneros
             )
+        )
 
-            st.divider()
+        st.dataframe(
+            vista_resultados,
+            use_container_width=True,
+            hide_index=True,
+        )
 
-            st.subheader(
-                "2. Revisa los colaboradores encontrados"
+        st.write(
+            "### Resumen por plantilla"
+        )
+
+        resumen_plantillas = (
+            cumpleaneros[
+                "Plantilla asignada"
+            ]
+            .value_counts()
+            .rename_axis("Plantilla")
+            .reset_index(
+                name="Cantidad"
+            )
+        )
+
+        st.dataframe(
+            resumen_plantillas,
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        registros_asignados = (
+            cumpleaneros[
+                cumpleaneros[
+                    "Plantilla asignada"
+                ] != "SIN ASIGNAR"
+            ].copy()
+        )
+
+        registros_sin_asignar = (
+            cumpleaneros[
+                cumpleaneros[
+                    "Plantilla asignada"
+                ] == "SIN ASIGNAR"
+            ].copy()
+        )
+
+        columna_asignados, columna_no_asignados = (
+            st.columns(2)
+        )
+
+        columna_asignados.metric(
+            "Tarjetas listas para generar",
+            len(registros_asignados),
+        )
+
+        columna_no_asignados.metric(
+            "Registros sin plantilla",
+            len(registros_sin_asignar),
+        )
+
+        if not registros_sin_asignar.empty:
+            st.error(
+                f"Hay "
+                f"{len(registros_sin_asignar)} "
+                "colaboradores sin una "
+                "plantilla asignada."
             )
 
-            if modalidad == "Mes completo":
-                descripcion_filtro = (
-                    f"Mes completo: {nombre_mes}"
+            columnas_sin_asignar = [
+                "Empresa",
+                "Sucursal",
+                "Nombre",
+                "Departamento",
+                "Puesto",
+                "Resultado de validación",
+            ]
+
+            with st.expander(
+                "Ver colaboradores sin plantilla",
+                expanded=True,
+            ):
+                st.dataframe(
+                    registros_sin_asignar[
+                        columnas_sin_asignar
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
                 )
-            else:
-                descripcion_filtro = (
-                    f"{dia_seleccionado:02d} de "
-                    f"{nombre_mes.lower()}"
-                )
+
+            st.warning(
+                "Los registros sin plantilla "
+                "no se incluirán cuando se generen "
+                "los archivos PNG."
+            )
+
+        else:
+            st.success(
+                "Todos los colaboradores encontrados "
+                "tienen una plantilla asignada."
+            )
+
+        if registros_asignados.empty:
+            st.error(
+                "No hay colaboradores válidos para "
+                "generar una vista previa."
+            )
+
+            st.stop()
+
+        st.divider()
+
+        st.subheader(
+            "3. Genera una vista previa"
+        )
+
+        st.write(
+            """
+            Selecciona un colaborador para comprobar la
+            posición, el tamaño y los colores del nombre,
+            puesto y fecha.
+            """
+        )
+
+        registros_vista = (
+            registros_asignados
+            .reset_index(drop=True)
+        )
+
+        opciones_colaboradores = {}
+
+        for indice, fila in (
+            registros_vista.iterrows()
+        ):
+            etiqueta = crear_etiqueta_colaborador(
+                indice=indice + 1,
+                fila=fila,
+            )
+
+            opciones_colaboradores[
+                etiqueta
+            ] = indice
+
+        etiqueta_seleccionada = st.selectbox(
+            "Colaborador para vista previa",
+            options=list(
+                opciones_colaboradores.keys()
+            ),
+        )
+
+        indice_seleccionado = (
+            opciones_colaboradores[
+                etiqueta_seleccionada
+            ]
+        )
+
+        colaborador = registros_vista.iloc[
+            indice_seleccionado
+        ]
+
+        nombre_colaborador = formato_titulo(
+            colaborador["Nombre"]
+        )
+
+        puesto_colaborador = formato_titulo(
+            colaborador["Puesto"]
+        )
+
+        fecha_colaborador = (
+            formato_fecha_tarjeta(
+                colaborador[
+                    "FechaNacimiento"
+                ]
+            )
+        )
+
+        plantilla_colaborador = colaborador[
+            "Plantilla asignada"
+        ]
+
+        columna_datos_1, columna_datos_2 = (
+            st.columns(2)
+        )
+
+        with columna_datos_1:
+            st.write(
+                f"**Nombre:** "
+                f"{nombre_colaborador}"
+            )
 
             st.write(
-                f"**Empresa:** "
-                f"{empresa_seleccionada}  \n"
-                f"**Periodo:** "
-                f"{descripcion_filtro}"
+                f"**Puesto:** "
+                f"{puesto_colaborador}"
             )
 
-            if cumpleaneros.empty:
-                st.warning(
-                    "No se encontraron colaboradores "
-                    "que coincidan con los filtros "
-                    "seleccionados."
-                )
+            st.write(
+                f"**Fecha:** "
+                f"{fecha_colaborador}"
+            )
 
-            else:
-                st.success(
-                    f"Se encontraron "
-                    f"{len(cumpleaneros)} "
-                    f"colaboradores."
-                )
+        with columna_datos_2:
+            st.write(
+                f"**Plantilla:** "
+                f"{plantilla_colaborador}"
+            )
 
-                vista_resultados = (
-                    crear_vista_resultados(
-                        cumpleaneros
-                    )
-                )
+            st.write(
+                f"**Sucursal:** "
+                f"{colaborador['Sucursal']}"
+            )
 
-                st.dataframe(
-                    vista_resultados,
-                    use_container_width=True,
-                    hide_index=True,
-                )
+            st.write(
+                f"**Empresa matriz:** "
+                f"{colaborador['Empresa']}"
+            )
 
-                st.write(
-                    "## Resumen por plantilla"
-                )
-
-                resumen_plantillas = (
-                    cumpleaneros[
-                        "Plantilla asignada"
-                    ]
-                    .value_counts()
-                    .rename_axis("Plantilla")
-                    .reset_index(
-                        name="Cantidad"
-                    )
-                )
-
-                st.dataframe(
-                    resumen_plantillas,
-                    use_container_width=True,
-                    hide_index=True,
-                )
-
-                registros_asignados = (
-                    cumpleaneros[
-                        cumpleaneros[
-                            "Plantilla asignada"
-                        ] != "SIN ASIGNAR"
-                    ].copy()
-                )
-
-                registros_sin_asignar = (
-                    cumpleaneros[
-                        cumpleaneros[
-                            "Plantilla asignada"
-                        ] == "SIN ASIGNAR"
-                    ].copy()
-                )
-
-                columna_asignados, columna_no_asignados = (
-                    st.columns(2)
-                )
-
-                columna_asignados.metric(
-                    "Tarjetas listas para generar",
-                    len(registros_asignados),
-                )
-
-                columna_no_asignados.metric(
-                    "Registros sin plantilla",
-                    len(
-                        registros_sin_asignar
+        if st.button(
+            "Generar vista previa",
+            type="primary",
+            use_container_width=True,
+        ):
+            try:
+                tarjeta = generar_tarjeta(
+                    nombre=colaborador[
+                        "Nombre"
+                    ],
+                    puesto=colaborador[
+                        "Puesto"
+                    ],
+                    fecha_nacimiento=colaborador[
+                        "FechaNacimiento"
+                    ],
+                    nombre_plantilla=(
+                        plantilla_colaborador
+                    ),
+                    anio_actual=(
+                        datetime.now().year
                     ),
                 )
 
-                if not registros_sin_asignar.empty:
-                    st.error(
-                        f"Hay "
-                        f"{len(registros_sin_asignar)} "
-                        "colaboradores sin una "
-                        "plantilla asignada."
+                datos_tarjeta = tarjeta.getvalue()
+
+                nombre_archivo = (
+                    crear_nombre_archivo(
+                        nombre_completo=colaborador[
+                            "Nombre"
+                        ],
+                        fecha_nacimiento=colaborador[
+                            "FechaNacimiento"
+                        ],
                     )
+                )
 
-                    columnas_sin_asignar = [
-                        "Empresa",
-                        "Sucursal",
-                        "Nombre",
-                        "Departamento",
-                        "Puesto",
-                        "Resultado de validación",
-                    ]
+                st.session_state[
+                    "tarjeta_previa"
+                ] = datos_tarjeta
 
-                    with st.expander(
-                        "Ver colaboradores sin plantilla",
-                        expanded=True,
-                    ):
-                        st.dataframe(
-                            registros_sin_asignar[
-                                columnas_sin_asignar
-                            ],
-                            use_container_width=True,
-                            hide_index=True,
-                        )
+                st.session_state[
+                    "nombre_tarjeta_previa"
+                ] = nombre_archivo
 
-                    st.warning(
-                        "Los registros sin plantilla "
-                        "no se incluirán cuando "
-                        "generemos los archivos PNG."
-                    )
+                st.session_state[
+                    "colaborador_previo"
+                ] = etiqueta_seleccionada
 
-                else:
-                    st.success(
-                        "Todos los colaboradores "
-                        "encontrados tienen una "
-                        "plantilla asignada."
-                    )
+            except FileNotFoundError as error:
+                st.error(
+                    "No se encontró el archivo de la "
+                    "plantilla seleccionada."
+                )
+
+                st.exception(error)
 
                 st.info(
-                    "En el siguiente paso agregaremos "
-                    "la generación visual de una "
-                    "tarjeta de prueba."
+                    "Verifica que las cinco plantillas "
+                    "vacías estén dentro de "
+                    "assets/plantillas y tengan los "
+                    "nombres correctos."
                 )
+
+            except Exception as error:
+                st.error(
+                    "Ocurrió un error al generar "
+                    "la vista previa."
+                )
+
+                st.exception(error)
+
+        if (
+            "tarjeta_previa" in st.session_state
+            and "nombre_tarjeta_previa"
+            in st.session_state
+            and st.session_state.get(
+                "colaborador_previo"
+            ) == etiqueta_seleccionada
+        ):
+            st.write(
+                "### Resultado"
+            )
+
+            st.image(
+                st.session_state[
+                    "tarjeta_previa"
+                ],
+                caption=(
+                    st.session_state[
+                        "nombre_tarjeta_previa"
+                    ]
+                ),
+                use_container_width=True,
+            )
+
+            st.download_button(
+                label="Descargar esta tarjeta PNG",
+                data=st.session_state[
+                    "tarjeta_previa"
+                ],
+                file_name=st.session_state[
+                    "nombre_tarjeta_previa"
+                ],
+                mime="image/png",
+                use_container_width=True,
+            )
+
+            st.info(
+                "Revisa especialmente la posición del "
+                "nombre, puesto y fecha. Si algún elemento "
+                "está desalineado, ajustaremos las "
+                "coordenadas de esa plantilla."
+            )
 
     except Exception as error:
         st.error(
@@ -748,9 +973,8 @@ else:
         st.exception(error)
 
         st.info(
-            "Verifica que el archivo sea un Excel "
-            "válido con extensión .xlsx, que no "
-            "esté protegido con contraseña y que "
-            "reglas.py se encuentre dentro de la "
-            "carpeta modules."
+            "Verifica que el archivo sea un Excel válido, "
+            "que no esté protegido con contraseña y que "
+            "los archivos reglas.py y generador.py estén "
+            "dentro de la carpeta modules."
         )
