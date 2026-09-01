@@ -84,7 +84,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 672,
             "centro_y": 423,
             "ancho_maximo": 470,
-            "tamano_inicial": 22,
+            "tamano_inicial": 15,
             "tamano_minimo": 17,
             "color": "#123A67",
         },
