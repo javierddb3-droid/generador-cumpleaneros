@@ -6,6 +6,10 @@ import unicodedata
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 
+from modules.correcciones_nombres import (
+    corregir_nombre_completo,
+)
+
 
 RUTA_PROYECTO = Path(__file__).resolve().parent.parent
 RUTA_PLANTILLAS = RUTA_PROYECTO / "assets" / "plantillas"
@@ -51,6 +55,7 @@ PARTICULAS_MINUSCULAS = {
     "Las",
     "Los",
     "Y",
+    "E",
 }
 
 
@@ -59,27 +64,27 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "difarmer.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 290,
+            "centro_y": 282,
             "ancho_maximo": 510,
             "alto_maximo": 125,
-            "tamano_inicial": 50,
+            "tamano_inicial": 48,
             "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#123A67",
         },
         "puesto": {
             "centro_x": 672,
-            "centro_y": 380,
+            "centro_y": 372,
             "ancho_maximo": 470,
-            "tamano_inicial": 24,
+            "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#EAAF00",
         },
         "fecha": {
             "centro_x": 672,
-            "centro_y": 430,
+            "centro_y": 423,
             "ancho_maximo": 470,
-            "tamano_inicial": 22,
+            "tamano_inicial": 24,
             "tamano_minimo": 17,
             "color": "#123A67",
         },
@@ -92,7 +97,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_y": 265,
             "ancho_maximo": 510,
             "alto_maximo": 125,
-            "tamano_inicial": 50,
+            "tamano_inicial": 48,
             "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#F58220",
@@ -101,7 +106,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 670,
             "centro_y": 365,
             "ancho_maximo": 470,
-            "tamano_inicial": 24,
+            "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#173D6D",
         },
@@ -109,7 +114,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 670,
             "centro_y": 423,
             "ancho_maximo": 470,
-            "tamano_inicial": 22,
+            "tamano_inicial": 24,
             "tamano_minimo": 17,
             "color": "#173D6D",
         },
@@ -122,7 +127,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_y": 264,
             "ancho_maximo": 520,
             "alto_maximo": 125,
-            "tamano_inicial": 50,
+            "tamano_inicial": 48,
             "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#63388D",
@@ -131,7 +136,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 672,
             "centro_y": 361,
             "ancho_maximo": 430,
-            "tamano_inicial": 24,
+            "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#173D6D",
         },
@@ -139,7 +144,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 672,
             "centro_y": 422,
             "ancho_maximo": 470,
-            "tamano_inicial": 22,
+            "tamano_inicial": 24,
             "tamano_minimo": 17,
             "color": "#63388D",
         },
@@ -152,7 +157,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_y": 260,
             "ancho_maximo": 510,
             "alto_maximo": 125,
-            "tamano_inicial": 50,
+            "tamano_inicial": 48,
             "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#C9282D",
@@ -161,7 +166,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 665,
             "centro_y": 363,
             "ancho_maximo": 440,
-            "tamano_inicial": 24,
+            "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#173D6D",
         },
@@ -169,7 +174,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 665,
             "centro_y": 422,
             "ancho_maximo": 470,
-            "tamano_inicial": 22,
+            "tamano_inicial": 24,
             "tamano_minimo": 17,
             "color": "#173D6D",
         },
@@ -182,7 +187,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_y": 265,
             "ancho_maximo": 510,
             "alto_maximo": 125,
-            "tamano_inicial": 50,
+            "tamano_inicial": 48,
             "tamano_minimo": 30,
             "interlineado": 3,
             "color": "#63388D",
@@ -191,7 +196,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 670,
             "centro_y": 365,
             "ancho_maximo": 470,
-            "tamano_inicial": 24,
+            "tamano_inicial": 22,
             "tamano_minimo": 15,
             "color": "#4A9B44",
         },
@@ -199,7 +204,7 @@ CONFIGURACION_PLANTILLAS = {
             "centro_x": 670,
             "centro_y": 423,
             "ancho_maximo": 470,
-            "tamano_inicial": 22,
+            "tamano_inicial": 24,
             "tamano_minimo": 17,
             "color": "#4A9B44",
         },
@@ -209,22 +214,24 @@ CONFIGURACION_PLANTILLAS = {
 
 def limpiar_texto(valor):
     """
-    Convierte el valor a texto y elimina espacios innecesarios.
+    Convierte cualquier valor a texto limpio.
     """
 
     if pd.isna(valor):
         return ""
 
-    return " ".join(str(valor).strip().split())
+    return " ".join(
+        str(valor).strip().split()
+    )
 
 
 def formato_titulo(valor):
     """
-    Convierte textos escritos en mayúsculas a formato título.
+    Convierte puestos y otros textos a formato título.
 
     Ejemplo:
-    JAVIER DE DIOS BOCANEGRA
-    Javier de Dios Bocanegra
+    AUXILIAR DE ALMACEN
+    Auxiliar de Almacen
     """
 
     texto = limpiar_texto(valor)
@@ -236,69 +243,118 @@ def formato_titulo(valor):
     resultado = []
 
     for indice, palabra in enumerate(palabras):
-        if indice > 0 and palabra in PARTICULAS_MINUSCULAS:
-            resultado.append(palabra.lower())
+        if (
+            indice > 0
+            and palabra in PARTICULAS_MINUSCULAS
+        ):
+            resultado.append(
+                palabra.lower()
+            )
         else:
-            resultado.append(palabra)
+            resultado.append(
+                palabra
+            )
 
     return " ".join(resultado)
 
 
-def obtener_fecha_tarjeta(fecha_nacimiento, anio_actual):
+def formato_nombre(valor):
     """
-    Genera la fecha que aparecerá dentro de la tarjeta.
+    Corrige el formato del nombre y aplica los diccionarios
+    de acentos de nombres y apellidos.
+
+    Ejemplo:
+    JOSE ANGEL GARCIA LOPEZ
+    José Ángel García López
+    """
+
+    texto = limpiar_texto(valor)
+
+    if not texto:
+        return ""
+
+    return corregir_nombre_completo(
+        texto
+    )
+
+
+def obtener_fecha_tarjeta(
+    fecha_nacimiento,
+    anio_actual,
+):
+    """
+    Crea el texto de la fecha para la tarjeta.
     """
 
     if pd.isna(fecha_nacimiento):
         return ""
 
-    dia = int(fecha_nacimiento.day)
-    mes = MESES[int(fecha_nacimiento.month)]
+    dia = int(
+        fecha_nacimiento.day
+    )
 
-    return f"{dia:02d} de {mes} del {anio_actual}"
+    mes = MESES[
+        int(fecha_nacimiento.month)
+    ]
+
+    return (
+        f"{dia:02d} de {mes} "
+        f"del {anio_actual}"
+    )
 
 
 def obtener_fuente(negrita, tamano):
     """
-    Obtiene Montserrat desde la carpeta assets/fonts.
+    Carga exactamente las fuentes Antenna agregadas
+    dentro de assets/fonts.
+
+    Antenna-bold.ttf se utiliza para:
+    - Nombre
+    - Puesto
+
+    Antenna-Regular.ttf se utiliza para:
+    - Fecha
     """
 
     if negrita:
-        nombres = [
-            "Montserrat-Bold.ttf",
-            "Montserrat-SemiBold.ttf",
-            "Antenna-Bold.ttf",
-            "AntennaBold.ttf",
-        ]
+        nombre_archivo = "Antenna-bold.ttf"
     else:
-        nombres = [
-            "Montserrat-Regular.ttf",
-            "Antenna-Regular.ttf",
-            "AntennaRegular.ttf",
-        ]
+        nombre_archivo = "Antenna-Regular.ttf"
 
-    for nombre in nombres:
-        ruta = RUTA_FUENTES / nombre
-
-        if ruta.exists() and ruta.is_file():
-            try:
-                return ImageFont.truetype(
-                    str(ruta),
-                    size=int(tamano),
-                )
-            except OSError:
-                continue
-
-    raise FileNotFoundError(
-        "No se encontró la fuente necesaria. "
-        "Verifica que Montserrat-Bold.ttf y "
-        "Montserrat-Regular.ttf estén dentro de assets/fonts."
+    ruta_fuente = (
+        RUTA_FUENTES
+        / nombre_archivo
     )
 
+    if not ruta_fuente.exists():
+        raise FileNotFoundError(
+            "No se encontró la fuente esperada: "
+            f"{ruta_fuente}. "
+            "Revisa mayúsculas, minúsculas y extensión."
+        )
 
-def medir_texto(draw, texto, fuente):
+    try:
+        return ImageFont.truetype(
+            str(ruta_fuente),
+            size=int(tamano),
+        )
+
+    except OSError as error:
+        raise OSError(
+            "Pillow encontró el archivo de fuente, "
+            "pero no pudo abrirlo. Verifica que sea "
+            "un archivo TTF válido. "
+            f"Archivo: {ruta_fuente}"
+        ) from error
+
+
+def medir_texto(
+    draw,
+    texto,
+    fuente,
+):
     """
-    Mide el ancho y alto de un texto de una línea.
+    Mide el ancho y el alto de un texto de una línea.
     """
 
     caja = draw.textbbox(
@@ -320,7 +376,7 @@ def medir_texto_multilinea(
     interlineado,
 ):
     """
-    Mide el ancho y alto de un texto de varias líneas.
+    Mide un texto de una o dos líneas.
     """
 
     caja = draw.multiline_textbbox(
@@ -344,7 +400,8 @@ def dividir_nombre_equilibrado(
     ancho_maximo,
 ):
     """
-    Divide un nombre largo en dos líneas equilibradas.
+    Divide automáticamente los nombres largos
+    en dos líneas equilibradas.
     """
 
     palabras = nombre.split()
@@ -352,45 +409,62 @@ def dividir_nombre_equilibrado(
     if len(palabras) <= 1:
         return nombre
 
-    ancho_nombre, _ = medir_texto(
-        draw,
-        nombre,
-        fuente,
+    ancho_total, _ = medir_texto(
+        draw=draw,
+        texto=nombre,
+        fuente=fuente,
     )
 
-    if ancho_nombre <= ancho_maximo:
+    if ancho_total <= ancho_maximo:
         return nombre
 
     mejor_texto = None
     mejor_diferencia = None
 
-    for indice in range(1, len(palabras)):
-        linea_1 = " ".join(palabras[:indice])
-        linea_2 = " ".join(palabras[indice:])
+    for indice in range(
+        1,
+        len(palabras),
+    ):
+        linea_1 = " ".join(
+            palabras[:indice]
+        )
+
+        linea_2 = " ".join(
+            palabras[indice:]
+        )
 
         ancho_1, _ = medir_texto(
-            draw,
-            linea_1,
-            fuente,
+            draw=draw,
+            texto=linea_1,
+            fuente=fuente,
         )
 
         ancho_2, _ = medir_texto(
-            draw,
-            linea_2,
-            fuente,
+            draw=draw,
+            texto=linea_2,
+            fuente=fuente,
         )
 
-        ancho_mayor = max(ancho_1, ancho_2)
+        ancho_mayor = max(
+            ancho_1,
+            ancho_2,
+        )
 
         if ancho_mayor <= ancho_maximo:
-            diferencia = abs(ancho_1 - ancho_2)
+            diferencia = abs(
+                ancho_1 - ancho_2
+            )
 
             if (
                 mejor_diferencia is None
                 or diferencia < mejor_diferencia
             ):
                 mejor_diferencia = diferencia
-                mejor_texto = f"{linea_1}\n{linea_2}"
+
+                mejor_texto = (
+                    f"{linea_1}\n"
+                    f"{linea_2}"
+                )
 
     if mejor_texto:
         return mejor_texto
@@ -408,7 +482,10 @@ def dividir_nombre_equilibrado(
         palabras[punto_medio:]
     )
 
-    return f"{linea_1}\n{linea_2}"
+    return (
+        f"{linea_1}\n"
+        f"{linea_2}"
+    )
 
 
 def ajustar_nombre(
@@ -417,7 +494,8 @@ def ajustar_nombre(
     configuracion,
 ):
     """
-    Ajusta el nombre al espacio disponible.
+    Ajusta automáticamente el tamaño y salto
+    de línea del nombre.
     """
 
     tamano_inicial = configuracion[
@@ -488,14 +566,25 @@ def ajustar_nombre(
 def ajustar_texto_una_linea(
     draw,
     texto,
-    ancho_maximo,
-    tamano_inicial,
-    tamano_minimo,
+    configuracion,
     negrita,
 ):
     """
-    Reduce un texto gradualmente hasta que cabe.
+    Reduce el tamaño del puesto o fecha
+    hasta que quepa en el ancho permitido.
     """
+
+    tamano_inicial = configuracion[
+        "tamano_inicial"
+    ]
+
+    tamano_minimo = configuracion[
+        "tamano_minimo"
+    ]
+
+    ancho_maximo = configuracion[
+        "ancho_maximo"
+    ]
 
     for tamano in range(
         tamano_inicial,
@@ -508,9 +597,9 @@ def ajustar_texto_una_linea(
         )
 
         ancho, _ = medir_texto(
-            draw,
-            texto,
-            fuente,
+            draw=draw,
+            texto=texto,
+            fuente=fuente,
         )
 
         if ancho <= ancho_maximo:
@@ -525,13 +614,11 @@ def ajustar_texto_una_linea(
 def dibujar_texto_centrado(
     draw,
     texto,
-    centro_x,
-    centro_y,
+    configuracion,
     fuente,
-    color,
 ):
     """
-    Dibuja un texto centrado horizontal y verticalmente.
+    Dibuja puesto o fecha usando el centro configurado.
     """
 
     caja = draw.textbbox(
@@ -543,29 +630,41 @@ def dibujar_texto_centrado(
     ancho = caja[2] - caja[0]
     alto = caja[3] - caja[1]
 
-    posicion_x = centro_x - (ancho / 2)
-    posicion_y = centro_y - (alto / 2) - caja[1]
+    posicion_x = (
+        configuracion["centro_x"]
+        - ancho / 2
+    )
+
+    posicion_y = (
+        configuracion["centro_y"]
+        - alto / 2
+        - caja[1]
+    )
 
     draw.text(
-        (posicion_x, posicion_y),
+        (
+            posicion_x,
+            posicion_y,
+        ),
         texto,
         font=fuente,
-        fill=color,
+        fill=configuracion["color"],
     )
 
 
 def dibujar_nombre_centrado(
     draw,
     texto,
-    centro_x,
-    centro_y,
+    configuracion,
     fuente,
-    color,
-    interlineado,
 ):
     """
-    Dibuja un nombre centrado en una o dos líneas.
+    Dibuja el nombre centrado en una o dos líneas.
     """
+
+    interlineado = configuracion[
+        "interlineado"
+    ]
 
     caja = draw.multiline_textbbox(
         (0, 0),
@@ -578,32 +677,52 @@ def dibujar_nombre_centrado(
     ancho = caja[2] - caja[0]
     alto = caja[3] - caja[1]
 
-    posicion_x = centro_x - (ancho / 2)
-    posicion_y = centro_y - (alto / 2) - caja[1]
+    posicion_x = (
+        configuracion["centro_x"]
+        - ancho / 2
+    )
+
+    posicion_y = (
+        configuracion["centro_y"]
+        - alto / 2
+        - caja[1]
+    )
 
     draw.multiline_text(
-        (posicion_x, posicion_y),
+        (
+            posicion_x,
+            posicion_y,
+        ),
         texto,
         font=fuente,
-        fill=color,
+        fill=configuracion["color"],
         spacing=interlineado,
         align="center",
     )
 
 
-def validar_plantilla(nombre_plantilla):
+def validar_plantilla(
+    nombre_plantilla,
+):
     """
-    Comprueba que la plantilla exista.
+    Verifica que exista la configuración
+    y el archivo PNG de la plantilla.
     """
 
-    if nombre_plantilla not in CONFIGURACION_PLANTILLAS:
+    if (
+        nombre_plantilla
+        not in CONFIGURACION_PLANTILLAS
+    ):
         raise ValueError(
-            f"No existe configuración para {nombre_plantilla}."
+            "No existe configuración para "
+            f"{nombre_plantilla}."
         )
 
-    configuracion = CONFIGURACION_PLANTILLAS[
-        nombre_plantilla
-    ]
+    configuracion = (
+        CONFIGURACION_PLANTILLAS[
+            nombre_plantilla
+        ]
+    )
 
     ruta_plantilla = (
         RUTA_PLANTILLAS
@@ -616,7 +735,10 @@ def validar_plantilla(nombre_plantilla):
             f"{ruta_plantilla}"
         )
 
-    return configuracion, ruta_plantilla
+    return (
+        configuracion,
+        ruta_plantilla,
+    )
 
 
 def generar_tarjeta(
@@ -627,11 +749,13 @@ def generar_tarjeta(
     anio_actual,
 ):
     """
-    Genera la tarjeta de cumpleaños en PNG.
+    Genera una tarjeta PNG en memoria.
     """
 
-    configuracion, ruta_plantilla = validar_plantilla(
-        nombre_plantilla
+    configuracion, ruta_plantilla = (
+        validar_plantilla(
+            nombre_plantilla
+        )
     )
 
     imagen = Image.open(
@@ -640,14 +764,16 @@ def generar_tarjeta(
 
     if imagen.size != (960, 720):
         raise ValueError(
-            f"La plantilla {nombre_plantilla} mide "
-            f"{imagen.width} x {imagen.height}. "
+            f"La plantilla {nombre_plantilla} "
+            f"mide {imagen.width} x {imagen.height}. "
             "El tamaño esperado es 960 x 720."
         )
 
-    draw = ImageDraw.Draw(imagen)
+    draw = ImageDraw.Draw(
+        imagen
+    )
 
-    nombre_formateado = formato_titulo(
+    nombre_formateado = formato_nombre(
         nombre
     )
 
@@ -664,28 +790,19 @@ def generar_tarjeta(
         "nombre"
     ]
 
-    nombre_ajustado, fuente_nombre = ajustar_nombre(
-        draw=draw,
-        nombre=nombre_formateado,
-        configuracion=configuracion_nombre,
+    nombre_ajustado, fuente_nombre = (
+        ajustar_nombre(
+            draw=draw,
+            nombre=nombre_formateado,
+            configuracion=configuracion_nombre,
+        )
     )
 
     dibujar_nombre_centrado(
         draw=draw,
         texto=nombre_ajustado,
-        centro_x=configuracion_nombre[
-            "centro_x"
-        ],
-        centro_y=configuracion_nombre[
-            "centro_y"
-        ],
+        configuracion=configuracion_nombre,
         fuente=fuente_nombre,
-        color=configuracion_nombre[
-            "color"
-        ],
-        interlineado=configuracion_nombre[
-            "interlineado"
-        ],
     )
 
     configuracion_puesto = configuracion[
@@ -695,31 +812,15 @@ def generar_tarjeta(
     fuente_puesto = ajustar_texto_una_linea(
         draw=draw,
         texto=puesto_formateado,
-        ancho_maximo=configuracion_puesto[
-            "ancho_maximo"
-        ],
-        tamano_inicial=configuracion_puesto[
-            "tamano_inicial"
-        ],
-        tamano_minimo=configuracion_puesto[
-            "tamano_minimo"
-        ],
+        configuracion=configuracion_puesto,
         negrita=True,
     )
 
     dibujar_texto_centrado(
         draw=draw,
         texto=puesto_formateado,
-        centro_x=configuracion_puesto[
-            "centro_x"
-        ],
-        centro_y=configuracion_puesto[
-            "centro_y"
-        ],
+        configuracion=configuracion_puesto,
         fuente=fuente_puesto,
-        color=configuracion_puesto[
-            "color"
-        ],
     )
 
     configuracion_fecha = configuracion[
@@ -729,31 +830,15 @@ def generar_tarjeta(
     fuente_fecha = ajustar_texto_una_linea(
         draw=draw,
         texto=fecha_formateada,
-        ancho_maximo=configuracion_fecha[
-            "ancho_maximo"
-        ],
-        tamano_inicial=configuracion_fecha[
-            "tamano_inicial"
-        ],
-        tamano_minimo=configuracion_fecha[
-            "tamano_minimo"
-        ],
+        configuracion=configuracion_fecha,
         negrita=False,
     )
 
     dibujar_texto_centrado(
         draw=draw,
         texto=fecha_formateada,
-        centro_x=configuracion_fecha[
-            "centro_x"
-        ],
-        centro_y=configuracion_fecha[
-            "centro_y"
-        ],
+        configuracion=configuracion_fecha,
         fuente=fuente_fecha,
-        color=configuracion_fecha[
-            "color"
-        ],
     )
 
     salida = BytesIO()
@@ -769,37 +854,45 @@ def generar_tarjeta(
     return salida
 
 
-def primer_nombre(nombre_completo):
+def primer_nombre(
+    nombre_completo,
+):
     """
-    Obtiene únicamente el primer nombre.
+    Obtiene el primer nombre después de aplicar
+    las correcciones de acentos.
     """
 
-    nombre_limpio = formato_titulo(
+    nombre_corregido = formato_nombre(
         nombre_completo
     )
 
-    if not nombre_limpio:
+    if not nombre_corregido:
         return "Sin_nombre"
 
-    return nombre_limpio.split()[0]
+    return nombre_corregido.split()[0]
 
 
-def limpiar_nombre_archivo(texto):
+def limpiar_nombre_archivo(
+    texto,
+):
     """
-    Limpia caracteres problemáticos del nombre de archivo.
-    """
+    Elimina acentos y caracteres problemáticos
+    únicamente del nombre del archivo.
 
-    texto = str(texto).strip()
+    La tarjeta sí conserva los acentos.
+    """
 
     texto = unicodedata.normalize(
         "NFKD",
-        texto,
+        str(texto),
     )
 
     texto = "".join(
         caracter
         for caracter in texto
-        if not unicodedata.combining(caracter)
+        if not unicodedata.combining(
+            caracter
+        )
     )
 
     texto = re.sub(
@@ -822,10 +915,10 @@ def crear_nombre_archivo(
     fecha_nacimiento,
 ):
     """
-    Crea el nombre final del PNG.
+    Crea nombres como:
 
-    Ejemplo:
     Javier_16_oct.png
+    Jose_20_sep.png
     """
 
     nombre = primer_nombre(
@@ -844,4 +937,8 @@ def crear_nombre_archivo(
         int(fecha_nacimiento.month)
     ]
 
-    return f"{nombre}_{dia:02d}_{mes}.png"
+    return (
+        f"{nombre}_"
+        f"{dia:02d}_"
+        f"{mes}.png"
+    )
