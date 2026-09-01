@@ -16,6 +16,14 @@ RUTA_PLANTILLAS = RUTA_PROYECTO / "assets" / "plantillas"
 RUTA_FUENTES = RUTA_PROYECTO / "assets" / "fonts"
 
 
+ANCHO_IMAGEN = 960
+ALTO_IMAGEN = 720
+
+
+COLOR_BORDE = "#D3D3D3"
+GROSOR_BORDE = 4
+
+
 MESES = {
     1: "enero",
     2: "febrero",
@@ -303,9 +311,12 @@ def obtener_fecha_tarjeta(
     )
 
 
-def obtener_fuente(negrita, tamano):
+def obtener_fuente(
+    negrita,
+    tamano,
+):
     """
-    Carga exactamente las fuentes Antenna agregadas
+    Carga exactamente las fuentes Antenna ubicadas
     dentro de assets/fonts.
 
     Antenna-bold.ttf se utiliza para:
@@ -376,7 +387,8 @@ def medir_texto_multilinea(
     interlineado,
 ):
     """
-    Mide un texto de una o dos líneas.
+    Mide el ancho y el alto de un texto de una
+    o dos líneas.
     """
 
     caja = draw.multiline_textbbox(
@@ -494,7 +506,7 @@ def ajustar_nombre(
     configuracion,
 ):
     """
-    Ajusta automáticamente el tamaño y salto
+    Ajusta automáticamente el tamaño y el salto
     de línea del nombre.
     """
 
@@ -570,7 +582,7 @@ def ajustar_texto_una_linea(
     negrita,
 ):
     """
-    Reduce el tamaño del puesto o fecha
+    Reduce el tamaño del puesto o de la fecha
     hasta que quepa en el ancho permitido.
     """
 
@@ -618,7 +630,8 @@ def dibujar_texto_centrado(
     fuente,
 ):
     """
-    Dibuja puesto o fecha usando el centro configurado.
+    Dibuja el puesto o la fecha usando
+    el centro configurado.
     """
 
     caja = draw.textbbox(
@@ -701,6 +714,41 @@ def dibujar_nombre_centrado(
     )
 
 
+def dibujar_borde_interior(
+    imagen,
+    color=COLOR_BORDE,
+    grosor=GROSOR_BORDE,
+):
+    """
+    Dibuja un borde hacia el interior de la imagen.
+
+    La imagen conserva su tamaño original de 960 x 720 px.
+    """
+
+    if grosor <= 0:
+        return imagen
+
+    draw = ImageDraw.Draw(
+        imagen
+    )
+
+    for desplazamiento in range(
+        grosor
+    ):
+        draw.rectangle(
+            (
+                desplazamiento,
+                desplazamiento,
+                imagen.width - 1 - desplazamiento,
+                imagen.height - 1 - desplazamiento,
+            ),
+            outline=color,
+            width=1,
+        )
+
+    return imagen
+
+
 def validar_plantilla(
     nombre_plantilla,
 ):
@@ -718,11 +766,9 @@ def validar_plantilla(
             f"{nombre_plantilla}."
         )
 
-    configuracion = (
-        CONFIGURACION_PLANTILLAS[
-            nombre_plantilla
-        ]
-    )
+    configuracion = CONFIGURACION_PLANTILLAS[
+        nombre_plantilla
+    ]
 
     ruta_plantilla = (
         RUTA_PLANTILLAS
@@ -750,6 +796,13 @@ def generar_tarjeta(
 ):
     """
     Genera una tarjeta PNG en memoria.
+
+    La tarjeta:
+    - Conserva el tamaño de 960 x 720 px.
+    - Utiliza las fuentes Antenna.
+    - Corrige acentos en nombres y apellidos.
+    - Ajusta automáticamente nombres largos.
+    - Agrega un borde gris claro de 4 px.
     """
 
     configuracion, ruta_plantilla = (
@@ -762,11 +815,15 @@ def generar_tarjeta(
         ruta_plantilla
     ).convert("RGBA")
 
-    if imagen.size != (960, 720):
+    if imagen.size != (
+        ANCHO_IMAGEN,
+        ALTO_IMAGEN,
+    ):
         raise ValueError(
             f"La plantilla {nombre_plantilla} "
             f"mide {imagen.width} x {imagen.height}. "
-            "El tamaño esperado es 960 x 720."
+            f"El tamaño esperado es "
+            f"{ANCHO_IMAGEN} x {ALTO_IMAGEN}."
         )
 
     draw = ImageDraw.Draw(
@@ -839,6 +896,12 @@ def generar_tarjeta(
         texto=fecha_formateada,
         configuracion=configuracion_fecha,
         fuente=fuente_fecha,
+    )
+
+    imagen = dibujar_borde_interior(
+        imagen=imagen,
+        color=COLOR_BORDE,
+        grosor=GROSOR_BORDE,
     )
 
     salida = BytesIO()
