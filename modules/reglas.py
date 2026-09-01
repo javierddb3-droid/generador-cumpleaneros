@@ -308,6 +308,10 @@ def determinar_plantilla(fila):
             "Puesto",
             "",
         )
+    
+        # Exclusión: AGENTE DE VENTAS
+    if puesto == "AGENTE DE VENTAS":
+        return "SIN ASIGNAR"
     )
 
     # Prioridad 1: DABRA
