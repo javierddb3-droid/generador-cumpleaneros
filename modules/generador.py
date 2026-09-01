@@ -142,7 +142,7 @@ CONFIGURACION_PLANTILLAS = {
         },
         "fecha": {
             "centro_x": 655,
-            "centro_y": 430,
+            "centro_y": 410,
             "ancho_maximo": 470,
             "tamano_inicial": 20,
             "tamano_minimo": 17,
