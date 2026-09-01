@@ -21,7 +21,7 @@ SUCURSALES_FARMASI = {
     "5 DE MAYO",
     "ALTURAS DEL SUR",
     "AMERICAS",
-    "ASENTAMIENTOS HUMANOS",
+    "ASENTAMIENTOS",
     "BACHIGUALATO",
     "BENITO JUAREZ (GUAMUCHIL)",
     "BENJAMIN HILL 2",
@@ -80,8 +80,7 @@ SUCURSALES_FARMASI = {
 
 def limpiar_codigos_excel(texto):
     """
-    Elimina códigos y caracteres invisibles que pueden aparecer
-    cuando los datos provienen de Excel u otros sistemas.
+    Elimina códigos y caracteres invisibles provenientes de Excel.
 
     Ejemplos:
     MEXICALI_x000D_ -> MEXICALI
@@ -101,18 +100,32 @@ def limpiar_codigos_excel(texto):
     ]
 
     for codigo in codigos_excel:
-        texto = texto.replace(codigo, " ")
+        texto = texto.replace(
+            codigo,
+            " ",
+        )
 
-    texto = texto.replace("\r", " ")
-    texto = texto.replace("\n", " ")
-    texto = texto.replace("\t", " ")
+    texto = texto.replace(
+        "\r",
+        " ",
+    )
+
+    texto = texto.replace(
+        "\n",
+        " ",
+    )
+
+    texto = texto.replace(
+        "\t",
+        " ",
+    )
 
     return texto
 
 
 def normalizar_para_comparar(valor):
     """
-    Normaliza un texto para realizar comparaciones confiables.
+    Normaliza texto para realizar comparaciones confiables.
 
     La función:
     - Elimina códigos ocultos de Excel
@@ -120,13 +133,14 @@ def normalizar_para_comparar(valor):
     - Convierte el texto a mayúsculas
     - Elimina acentos
     - Corrige espacios repetidos
-    - Quita espacios al inicio y al final
     """
 
     if pd.isna(valor):
         return ""
 
-    texto = limpiar_codigos_excel(valor)
+    texto = limpiar_codigos_excel(
+        valor
+    )
 
     texto = texto.strip().upper()
 
@@ -138,7 +152,9 @@ def normalizar_para_comparar(valor):
     texto = "".join(
         caracter
         for caracter in texto
-        if not unicodedata.combining(caracter)
+        if not unicodedata.combining(
+            caracter
+        )
     )
 
     texto = re.sub(
@@ -166,16 +182,61 @@ def normalizar_para_comparar(valor):
 
 def contiene_texto(texto, expresion):
     """
-    Comprueba si una palabra o expresión aparece dentro de un texto.
+    Comprueba si una expresión aparece dentro de un texto.
     """
 
-    texto_normalizado = normalizar_para_comparar(texto)
+    texto_normalizado = normalizar_para_comparar(
+        texto
+    )
 
     expresion_normalizada = normalizar_para_comparar(
         expresion
     )
 
-    return expresion_normalizada in texto_normalizado
+    return (
+        expresion_normalizada
+        in texto_normalizado
+    )
+
+
+def contiene_palabra_completa(texto, palabra):
+    """
+    Comprueba si una palabra independiente aparece dentro del texto.
+
+    Esta función evita que PX coincida accidentalmente con
+    una secuencia de letras dentro de otra palabra.
+
+    Ejemplos válidos:
+    AUXILIAR PX
+    PX ENCARGADO
+    ENCARGADO (PX)
+    SUPERVISOR-PX
+
+    Ejemplos que no coinciden:
+    EXPERTO
+    EXPEDICION
+    """
+
+    texto_normalizado = normalizar_para_comparar(
+        texto
+    )
+
+    palabra_normalizada = normalizar_para_comparar(
+        palabra
+    )
+
+    patron = (
+        r"(?<![A-Z0-9])"
+        + re.escape(palabra_normalizada)
+        + r"(?![A-Z0-9])"
+    )
+
+    return bool(
+        re.search(
+            patron,
+            texto_normalizado,
+        )
+    )
 
 
 def comienza_con(texto, prefijo):
@@ -183,7 +244,9 @@ def comienza_con(texto, prefijo):
     Comprueba si un texto comienza con el prefijo indicado.
     """
 
-    texto_normalizado = normalizar_para_comparar(texto)
+    texto_normalizado = normalizar_para_comparar(
+        texto
+    )
 
     prefijo_normalizado = normalizar_para_comparar(
         prefijo
@@ -196,30 +259,55 @@ def comienza_con(texto, prefijo):
 
 def determinar_plantilla(fila):
     """
-    Determina la plantilla correspondiente a un colaborador.
+    Determina la plantilla correspondiente al colaborador.
 
     Orden de prioridad:
+
     1. DABRA
+       Si Departamento contiene TALLER.
+
     2. BARANETOS
+       Si Departamento contiene BARANETOS.
+
     3. PHARMACEUTIX
+       Si Puesto contiene la palabra PX.
+       No importa la empresa ni la sucursal.
+
     4. DIFARMER
+       Si Empresa es DIFARMER y la sucursal pertenece
+       al catálogo de DIFARMER.
+
     5. FARMASI
+       Si Empresa es OPEFAR y la sucursal pertenece
+       al catálogo de FARMASI.
     """
 
     empresa = normalizar_para_comparar(
-        fila.get("Empresa", "")
+        fila.get(
+            "Empresa",
+            "",
+        )
     )
 
     sucursal = normalizar_para_comparar(
-        fila.get("Sucursal", "")
+        fila.get(
+            "Sucursal",
+            "",
+        )
     )
 
     departamento = normalizar_para_comparar(
-        fila.get("Departamento", "")
+        fila.get(
+            "Departamento",
+            "",
+        )
     )
 
     puesto = normalizar_para_comparar(
-        fila.get("Puesto", "")
+        fila.get(
+            "Puesto",
+            "",
+        )
     )
 
     # Prioridad 1: DABRA
@@ -237,10 +325,11 @@ def determinar_plantilla(fila):
         return "BARANETOS"
 
     # Prioridad 3: PHARMACEUTIX
-    if (
-        empresa == "DIFARMER"
-        and comienza_con(sucursal, "PX")
-        and contiene_texto(puesto, "PX")
+    # Se asigna cuando el puesto contiene la palabra PX,
+    # sin importar empresa o sucursal.
+    if contiene_palabra_completa(
+        puesto,
+        "PX",
     ):
         return "PHARMACEUTIX"
 
@@ -267,19 +356,31 @@ def obtener_motivo_sin_asignar(fila):
     """
 
     empresa = normalizar_para_comparar(
-        fila.get("Empresa", "")
+        fila.get(
+            "Empresa",
+            "",
+        )
     )
 
     sucursal = normalizar_para_comparar(
-        fila.get("Sucursal", "")
+        fila.get(
+            "Sucursal",
+            "",
+        )
     )
 
     departamento = normalizar_para_comparar(
-        fila.get("Departamento", "")
+        fila.get(
+            "Departamento",
+            "",
+        )
     )
 
     puesto = normalizar_para_comparar(
-        fila.get("Puesto", "")
+        fila.get(
+            "Puesto",
+            "",
+        )
     )
 
     if not empresa:
@@ -290,43 +391,58 @@ def obtener_motivo_sin_asignar(fila):
         "OPEFAR",
     }:
         return (
-            f"Empresa no reconocida: {empresa}."
+            f"Empresa no reconocida: "
+            f"{empresa}."
         )
 
     if not sucursal:
         return "La sucursal está vacía."
 
-    if empresa == "DIFARMER":
-        if comienza_con(
-            sucursal,
-            "PX",
-        ):
-            if not contiene_texto(
-                puesto,
-                "PX",
-            ):
-                return (
-                    "La sucursal comienza con PX, "
-                    "pero el puesto no contiene PX."
-                )
+    if contiene_texto(
+        departamento,
+        "TALLER",
+    ):
+        return (
+            "El departamento corresponde a TALLER "
+            "y debería recibir DABRA."
+        )
 
+    if contiene_texto(
+        departamento,
+        "BARANETOS",
+    ):
+        return (
+            "El departamento corresponde a BARANETOS "
+            "y debería recibir BARANETOS."
+        )
+
+    if contiene_palabra_completa(
+        puesto,
+        "PX",
+    ):
+        return (
+            "El puesto contiene PX y debería recibir "
+            "PHARMACEUTIX."
+        )
+
+    if empresa == "DIFARMER":
         return (
             f"La sucursal {sucursal} no está incluida "
-            "en el catálogo de DIFARMER."
+            "en el catálogo de DIFARMER y el puesto "
+            "no contiene PX."
         )
 
     if empresa == "OPEFAR":
         return (
             f"La sucursal {sucursal} no está incluida "
-            "en el catálogo de FARMASI."
+            "en el catálogo de FARMASI y el puesto "
+            "no contiene PX."
         )
 
-    if departamento:
-        return (
-            "El departamento no coincide con las reglas "
-            "de DABRA o BARANETOS."
-        )
-
+    return (
+        "El registro no cumple ninguna regla "
+        "de asignación."
+    )
     return (
         "El registro no cumple ninguna regla "
         "de asignación."
