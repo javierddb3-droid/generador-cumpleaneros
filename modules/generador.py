@@ -123,7 +123,7 @@ CONFIGURACION_PLANTILLAS = {
     "PHARMACEUTIX": {
         "archivo": "pharmaceutix.png",
         "nombre": {
-            "centro_x": 690,
+            "centro_x": 660,
             "centro_y": 264,
             "ancho_maximo": 520,
             "alto_maximo": 125,
@@ -133,7 +133,7 @@ CONFIGURACION_PLANTILLAS = {
             "color": "#63388D",
         },
         "puesto": {
-            "centro_x": 672,
+            "centro_x": 660,
             "centro_y": 361,
             "ancho_maximo": 430,
             "tamano_inicial": 30,
@@ -141,7 +141,7 @@ CONFIGURACION_PLANTILLAS = {
             "color": "#173D6D",
         },
         "fecha": {
-            "centro_x": 672,
+            "centro_x": 660,
             "centro_y": 422,
             "ancho_maximo": 470,
             "tamano_inicial": 20,
