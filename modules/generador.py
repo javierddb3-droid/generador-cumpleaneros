@@ -915,10 +915,14 @@ def crear_nombre_archivo(
     fecha_nacimiento,
 ):
     """
-    Crea nombres como:
+    Crea el nombre final del archivo PNG usando:
 
-    Javier_16_oct.png
-    Jose_20_sep.png
+    Día_PrimerNombre_Mes.png
+
+    Ejemplos:
+    01_Ana_oct.png
+    07_Jose_oct.png
+    16_Javier_oct.png
     """
 
     nombre = primer_nombre(
@@ -938,7 +942,7 @@ def crear_nombre_archivo(
     ]
 
     return (
-        f"{nombre}_"
         f"{dia:02d}_"
+        f"{nombre}_"
         f"{mes}.png"
     )
