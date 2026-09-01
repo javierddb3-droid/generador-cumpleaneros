@@ -78,13 +78,18 @@ SUCURSALES_FARMASI = {
 }
 
 
+PUESTOS_EXCLUIDOS = {
+    "AGENTE DE VENTAS",
+}
+
+
 def limpiar_codigos_excel(texto):
     """
     Elimina códigos y caracteres invisibles provenientes de Excel.
 
     Ejemplos:
     MEXICALI_x000D_ -> MEXICALI
-    CULIACAN_x000A_ -> CULIACAN
+    OFICINA_x000A_ -> OFICINA
     """
 
     texto = str(texto)
@@ -125,7 +130,7 @@ def limpiar_codigos_excel(texto):
 
 def normalizar_para_comparar(valor):
     """
-    Normaliza texto para realizar comparaciones confiables.
+    Normaliza un texto para realizar comparaciones confiables.
 
     La función:
     - Elimina códigos ocultos de Excel
@@ -133,6 +138,7 @@ def normalizar_para_comparar(valor):
     - Convierte el texto a mayúsculas
     - Elimina acentos
     - Corrige espacios repetidos
+    - Quita espacios al principio y al final
     """
 
     if pd.isna(valor):
@@ -193,6 +199,9 @@ def contiene_texto(texto, expresion):
         expresion
     )
 
+    if not expresion_normalizada:
+        return False
+
     return (
         expresion_normalizada
         in texto_normalizado
@@ -201,12 +210,9 @@ def contiene_texto(texto, expresion):
 
 def contiene_palabra_completa(texto, palabra):
     """
-    Comprueba si una palabra independiente aparece dentro del texto.
+    Comprueba si una palabra independiente aparece en el texto.
 
-    Esta función evita que PX coincida accidentalmente con
-    una secuencia de letras dentro de otra palabra.
-
-    Ejemplos válidos:
+    Ejemplos que sí coinciden con PX:
     AUXILIAR PX
     PX ENCARGADO
     ENCARGADO (PX)
@@ -225,9 +231,14 @@ def contiene_palabra_completa(texto, palabra):
         palabra
     )
 
+    if not palabra_normalizada:
+        return False
+
     patron = (
         r"(?<![A-Z0-9])"
-        + re.escape(palabra_normalizada)
+        + re.escape(
+            palabra_normalizada
+        )
         + r"(?![A-Z0-9])"
     )
 
@@ -239,21 +250,21 @@ def contiene_palabra_completa(texto, palabra):
     )
 
 
-def comienza_con(texto, prefijo):
+def puesto_esta_excluido(puesto):
     """
-    Comprueba si un texto comienza con el prefijo indicado.
+    Indica si el puesto está dentro del catálogo
+    de puestos que no deben recibir tarjeta.
+
+    La comparación es exacta después de normalizar el texto.
     """
 
-    texto_normalizado = normalizar_para_comparar(
-        texto
+    puesto_normalizado = normalizar_para_comparar(
+        puesto
     )
 
-    prefijo_normalizado = normalizar_para_comparar(
-        prefijo
-    )
-
-    return texto_normalizado.startswith(
-        prefijo_normalizado
+    return (
+        puesto_normalizado
+        in PUESTOS_EXCLUIDOS
     )
 
 
@@ -261,25 +272,26 @@ def determinar_plantilla(fila):
     """
     Determina la plantilla correspondiente al colaborador.
 
-    Orden de prioridad:
+    Orden de evaluación:
 
-    1. DABRA
-       Si Departamento contiene TALLER.
+    1. Puesto excluido
+       AGENTE DE VENTAS no genera tarjeta.
 
-    2. BARANETOS
-       Si Departamento contiene BARANETOS.
+    2. DABRA
+       Departamento contiene TALLER.
 
-    3. PHARMACEUTIX
-       Si Puesto contiene la palabra PX.
+    3. BARANETOS
+       Departamento contiene BARANETOS.
+
+    4. PHARMACEUTIX
+       Puesto contiene la palabra independiente PX.
        No importa la empresa ni la sucursal.
 
-    4. DIFARMER
-       Si Empresa es DIFARMER y la sucursal pertenece
-       al catálogo de DIFARMER.
+    5. DIFARMER
+       Empresa DIFARMER y sucursal autorizada.
 
-    5. FARMASI
-       Si Empresa es OPEFAR y la sucursal pertenece
-       al catálogo de FARMASI.
+    6. FARMASI
+       Empresa OPEFAR y sucursal autorizada.
     """
 
     empresa = normalizar_para_comparar(
@@ -308,11 +320,13 @@ def determinar_plantilla(fila):
             "Puesto",
             "",
         )
-    
-        # Exclusión: AGENTE DE VENTAS
-    if puesto == "AGENTE DE VENTAS":
-        return "SIN ASIGNAR"
     )
+
+    # Exclusión con máxima prioridad
+    if puesto_esta_excluido(
+        puesto
+    ):
+        return "SIN ASIGNAR"
 
     # Prioridad 1: DABRA
     if contiene_texto(
@@ -329,8 +343,7 @@ def determinar_plantilla(fila):
         return "BARANETOS"
 
     # Prioridad 3: PHARMACEUTIX
-    # Se asigna cuando el puesto contiene la palabra PX,
-    # sin importar empresa o sucursal.
+    # Basta con que el puesto contenga la palabra PX.
     if contiene_palabra_completa(
         puesto,
         "PX",
@@ -387,6 +400,14 @@ def obtener_motivo_sin_asignar(fila):
         )
     )
 
+    if puesto_esta_excluido(
+        puesto
+    ):
+        return (
+            "No se genera tarjeta para el puesto "
+            "AGENTE DE VENTAS."
+        )
+
     if not empresa:
         return "La empresa está vacía."
 
@@ -407,8 +428,8 @@ def obtener_motivo_sin_asignar(fila):
         "TALLER",
     ):
         return (
-            "El departamento corresponde a TALLER "
-            "y debería recibir DABRA."
+            "El departamento contiene TALLER "
+            "y debería recibir la plantilla DABRA."
         )
 
     if contiene_texto(
@@ -416,8 +437,8 @@ def obtener_motivo_sin_asignar(fila):
         "BARANETOS",
     ):
         return (
-            "El departamento corresponde a BARANETOS "
-            "y debería recibir BARANETOS."
+            "El departamento contiene BARANETOS "
+            "y debería recibir la plantilla BARANETOS."
         )
 
     if contiene_palabra_completa(
@@ -425,28 +446,22 @@ def obtener_motivo_sin_asignar(fila):
         "PX",
     ):
         return (
-            "El puesto contiene PX y debería recibir "
-            "PHARMACEUTIX."
+            "El puesto contiene la palabra PX "
+            "y debería recibir la plantilla PHARMACEUTIX."
         )
 
     if empresa == "DIFARMER":
         return (
             f"La sucursal {sucursal} no está incluida "
-            "en el catálogo de DIFARMER y el puesto "
-            "no contiene PX."
+            "en el catálogo de DIFARMER."
         )
 
     if empresa == "OPEFAR":
         return (
             f"La sucursal {sucursal} no está incluida "
-            "en el catálogo de FARMASI y el puesto "
-            "no contiene PX."
+            "en el catálogo de FARMASI."
         )
 
-    return (
-        "El registro no cumple ninguna regla "
-        "de asignación."
-    )
     return (
         "El registro no cumple ninguna regla "
         "de asignación."
