@@ -184,7 +184,7 @@ CONFIGURACION_PLANTILLAS = {
         "archivo": "baranetos.png",
         "nombre": {
             "centro_x": 670,
-            "centro_y": 270,
+            "centro_y": 280,
             "ancho_maximo": 510,
             "alto_maximo": 125,
             "tamano_inicial": 55,
@@ -194,7 +194,7 @@ CONFIGURACION_PLANTILLAS = {
         },
         "puesto": {
             "centro_x": 670,
-            "centro_y": 365,
+            "centro_y": 380,
             "ancho_maximo": 470,
             "tamano_inicial": 30,
             "tamano_minimo": 15,
@@ -202,7 +202,7 @@ CONFIGURACION_PLANTILLAS = {
         },
         "fecha": {
             "centro_x": 670,
-            "centro_y": 423,
+            "centro_y": 430,
             "ancho_maximo": 470,
             "tamano_inicial": 20,
             "tamano_minimo": 17,
