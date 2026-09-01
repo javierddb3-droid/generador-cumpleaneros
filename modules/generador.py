@@ -123,7 +123,7 @@ CONFIGURACION_PLANTILLAS = {
     "PHARMACEUTIX": {
         "archivo": "pharmaceutix.png",
         "nombre": {
-            "centro_x": 672,
+            "centro_x": 690,
             "centro_y": 264,
             "ancho_maximo": 520,
             "alto_maximo": 125,
