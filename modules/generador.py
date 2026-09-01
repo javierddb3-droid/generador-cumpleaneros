@@ -95,7 +95,7 @@ CONFIGURACION_PLANTILLAS = {
         "nombre": {
             "centro_x": 670,
             "centro_y": 265,
-            "ancho_maximo": 510,
+            "ancho_maximo": 450,
             "alto_maximo": 125,
             "tamano_inicial": 55,
             "tamano_minimo": 30,
