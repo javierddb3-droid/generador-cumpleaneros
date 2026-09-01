@@ -330,7 +330,7 @@ def obtener_fuente(
     if negrita:
         nombre_archivo = "Antenna-bold.ttf"
     else:
-        nombre_archivo = "Antenna-Regular.ttf"
+        nombre_archivo = "Antenna-bold.ttf"
 
     ruta_fuente = (
         RUTA_FUENTES
