@@ -82,7 +82,7 @@ CONFIGURACION_PLANTILLAS = {
         },
         "puesto": {
             "centro_x": 672,
-            "centro_y": 375,
+            "centro_y": 380,
             "ancho_maximo": 470,
             "tamano_inicial": 25,
             "tamano_minimo": 15,
