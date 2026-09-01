@@ -94,7 +94,7 @@ CONFIGURACION_PLANTILLAS = {
             "ancho_maximo": 470,
             "tamano_inicial": 20,
             "tamano_minimo": 17,
-            "color": "#123A67",
+            "color": "#004A93",
         },
     },
 
@@ -108,7 +108,7 @@ CONFIGURACION_PLANTILLAS = {
             "tamano_inicial": 55,
             "tamano_minimo": 30,
             "interlineado": 15,
-            "color": "#F58220",
+            "color": "#E85122",
         },
         "puesto": {
             "centro_x": 670,
@@ -124,7 +124,7 @@ CONFIGURACION_PLANTILLAS = {
             "ancho_maximo": 470,
             "tamano_inicial": 20,
             "tamano_minimo": 17,
-            "color": "#173D6D",
+            "color": "#E85122",
         },
     },
 
@@ -184,7 +184,7 @@ CONFIGURACION_PLANTILLAS = {
             "ancho_maximo": 470,
             "tamano_inicial": 20,
             "tamano_minimo": 17,
-            "color": "#173D6D",
+            "color": "#C9282D",
         },
     },
 
