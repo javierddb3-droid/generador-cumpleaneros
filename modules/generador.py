@@ -70,7 +70,7 @@ CONFIGURACION_PLANTILLAS = {
             "tamano_inicial": 55,
             "tamano_minimo": 30,
             "interlineado": 15,
-            "color": "#123A67",
+            "color": "#004A93",
         },
         "puesto": {
             "centro_x": 672,
